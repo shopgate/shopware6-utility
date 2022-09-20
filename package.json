@@ -1,0 +1,32 @@
+{
+  "name": "@apite/shopware6-utility",
+  "version": "0.1.0",
+  "description": "Shopgate Web Checkout utility for Shopware 6 extensions",
+  "license": "Apache-2.0",
+  "type": "commonjs",
+  "author": {
+    "name": "Konstantin Kiritsenko",
+    "email": " k@componentk.com"
+  },
+  "keywords": [
+    "shopware6",
+    "shopgate"
+  ],
+  "main": "index.js",
+  "scripts": {
+    "lint": "./node_modules/.bin/eslint --ignore-path .npmignore --ext .js --ext .jsx ."
+  },
+  "dependencies": {
+    "@shopware-pwa/shopware-6-client": "^1.5.3",
+    "nanoid": "2.1.11"
+  },
+  "devDependencies": {
+    "@types/node": "^17.0.19",
+    "@types/bunyan": "^1.8.8",
+    "eslint": "8.22.0",
+    "eslint-config-ts-standard": "^1.0.5",
+    "eslint-plugin-import": "^2.25.4",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^5.0.0"
+  }
+}
