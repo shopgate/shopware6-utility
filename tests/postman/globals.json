@@ -1,0 +1,148 @@
+{
+  "id": "c59d9487-64cc-42fc-84f0-6c88fa4406ff",
+  "values": [
+    {
+      "key": "system_port",
+      "value": "",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "domain",
+      "value": "http://localhost:{{port}}",
+      "enabled": true
+    },
+    {
+      "key": "port",
+      "value": "8090",
+      "enabled": true
+    },
+    {
+      "key": "endpoint_cart_products_add",
+      "value": "/pipelines/shopgate.cart.addProducts.v1",
+      "enabled": true
+    },
+    {
+      "key": "endpoint_cart_products_delete",
+      "value": "/pipelines/shopgate.cart.deleteProducts.v1",
+      "enabled": true
+    },
+    {
+      "key": "endpoint_cart_shopify_checkout_get",
+      "value": "/pipelines/shopgate.cart.fetchShopifyCheckout.v1",
+      "enabled": true
+    },
+    {
+      "key": "endpoint_cart_get",
+      "value": "/pipelines/shopgate.cart.getCart.v1",
+      "enabled": true
+    },
+    {
+      "key": "endpoint_cart_products_update",
+      "value": "/pipelines/shopgate.cart.updateProducts.v1",
+      "enabled": true
+    },
+    {
+      "key": "endpoint_cart_coupons_add",
+      "value": "/pipelines/shopgate.cart.addCoupons.v1",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "endpoint_cart_coupons_delete",
+      "value": "/pipelines/shopgate.cart.deleteCoupons.v1",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "endpoint_checkout_url_get",
+      "value": "/pipelines/shopgate.checkout.getUrl.v1",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "endpoint_user_logout",
+      "value": "/trustedPipelines/shopgate.user.logoutUser.v1",
+      "enabled": true
+    },
+    {
+      "key": "endpoint_user_login",
+      "value": "/trustedPipelines/shopgate.user.loginUser.v1",
+      "enabled": true
+    },
+    {
+      "key": "endpoint_user_addresses_get",
+      "value": "/trustedPipelines/shopgate.user.getAddresses.v1",
+      "enabled": true
+    },
+    {
+      "key": "endpoint_user_address_add",
+      "value": "/trustedPipelines/shopgate.user.addAddress.v1",
+      "enabled": true
+    },
+    {
+      "key": "endpoint_user_address_update",
+      "value": "/trustedPipelines/shopgate.user.updateAddress.v1",
+      "enabled": true
+    },
+    {
+      "key": "endpoint_user_addresses_delete",
+      "value": "/trustedPipelines/shopgate.user.deleteAddresses.v1",
+      "enabled": true
+    },
+    {
+      "key": "endpoint_user_get",
+      "value": "/trustedPipelines/shopgate.user.getUser.v1",
+      "enabled": true
+    },
+    {
+      "key": "endpoint_user_update",
+      "value": "/trustedPipelines/shopgate.user.updateUser.v1",
+      "enabled": true
+    },
+    {
+      "key": "endpoint_user_password_update",
+      "value": "/trustedPipelines/shopgate.user.updatePassword.v1",
+      "enabled": true
+    },
+    {
+      "key": "endpoint_user_email_update",
+      "value": "/trustedPipelines/shopgate.user.updateMail.v1",
+      "enabled": true
+    },
+    {
+      "key": "endpoint_user_registrationUrl_get",
+      "value": "/trustedPipelines/shopgate.user.getRegistrationUrl.v1",
+      "enabled": true
+    },
+    {
+      "key": "endpoint_catalog_products_get",
+      "value": "/pipelines/shopgate.catalog.getProducts.v1",
+      "enabled": true
+    },
+    {
+      "key": "endpoint_user_favorites_add",
+      "value": "/pipelines/shopgate.user.addFavorites.v1",
+      "enabled": true
+    },
+    {
+      "key": "endpoint_user_favorites_delete",
+      "value": "/pipelines/shopgate.user.deleteFavorites.v1",
+      "enabled": true
+    },
+    {
+      "key": "endpoint_user_favorites_get",
+      "value": "/pipelines/shopgate.user.getFavorites.v1",
+      "enabled": true
+    },
+    {
+      "key": "endpoint_user_favoriteIds_get",
+      "value": "/pipelines/shopgate.user.getFavoriteIds.v1",
+      "enabled": true
+    }
+  ],
+  "name": "Globals",
+  "_postman_variable_scope": "globals",
+  "_postman_exported_at": "2022-09-21T19:07:54.267Z",
+  "_postman_exported_using": "Postman/9.31.7"
+}
