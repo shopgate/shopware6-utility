@@ -20,7 +20,7 @@ const validate = (property, context) => {
  * @param {ApiteSW6Helper.PipelineContext} context
  * @returns {string|undefined}
  */
-const getEndpoint = (context) => {
+const getEndpoint = context => {
   const endpoint = process.env.SW_ENDPOINT || context.config.endpoint
 
   return validate(endpoint, context) || endpoint
@@ -30,7 +30,7 @@ const getEndpoint = (context) => {
  * @param {ApiteSW6Helper.PipelineContext} context
  * @returns {string|undefined}
  */
-const getAccessToken = (context) => {
+const getAccessToken = context => {
   const accessToken = process.env.SW_ACCESS_KEY || context.config.accessToken
 
   return validate(accessToken, context) || accessToken
@@ -40,8 +40,6 @@ const getAccessToken = (context) => {
  * @param {ApiteSW6Helper.PipelineContext} context
  * @returns {string|undefined}
  */
-const getLanguageId = (context) => {
-  return process.env.SW_LANG_ID || context.config.languageId
-}
+const getLanguageId = context => process.env.SW_LANG_ID || context.config.languageId
 
 module.exports = { getAccessToken, getEndpoint, getLanguageId }

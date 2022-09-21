@@ -33,12 +33,6 @@ const createApiConfig = async (context, config = {}, saveToken = true) => {
   // when this check is present, our plugin extends the current expired customer/guest session
   instance.defaults.headers.common['shopgate-check'] = 'true'
 
-  // todo: remove with client v1.5.4+ release
-  // rewrite error interceptor due to poor handling of non-SW errors
-  // instance._axiosInstance.interceptors.response.handlers[0].rejected = async (error) => {
-  //   return Promise.reject(error)
-  // }
-
   // if current user's token changes it will be saved to SG storage
   instance.onConfigChange(
     async ({ config }) => {

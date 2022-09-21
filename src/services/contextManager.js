@@ -14,13 +14,7 @@ const _getStorage = context => context.meta.userId ? context.storage.user : cont
  * @param {ApiteSW6Helper.PipelineContext} context
  * @return {Promise<string>}
  */
-const getContextToken = async context => {
-  return _getStorage(context).get('contextToken').then(contextToken => {
-    // todo: remove
-    context.log.debug('module: retrieved context:' + contextToken)
-    return contextToken
-  })
-}
+const getContextToken = async context => _getStorage(context).get('contextToken')
 
 /**
  * Saves the current checkout token into internal storage (user or device)
@@ -29,24 +23,22 @@ const getContextToken = async context => {
  * @param {ApiteSW6Helper.PipelineContext} context
  * @returns Promise<void>
  */
-const saveContextToken = async function (contextToken, context) {
-  await _getStorage(context).set('contextToken', contextToken)
-    // todo: remove
-    .then(() => context.log.fatal('module: saving context for: ' + contextToken))
-    .catch(err => context.log.error(decorateError(err), 'Failed to save context token.'))
-}
+const saveContextToken = async (contextToken, context) =>
+  _getStorage(context).set('contextToken', contextToken).catch(err =>
+    context.log.error(decorateError(err), 'Failed to save context token.')
+  )
 
 /**
  * @param {string} couponCode
  * @param {ApiteSW6Helper.PipelineContext} context
  * @return {Promise<void>}
  */
-const saveCouponCode = async function (couponCode, context) {
+const saveCouponCode = async (couponCode, context) => {
   if (!context.config.cacheCoupon) {
     context.log.debug(decorateMessage('Coupon cache is disabled, skipping save'))
     return
   }
-  await _getStorage(context).set('couponCode', couponCode).catch(err => {
+  return _getStorage(context).set('couponCode', couponCode).catch(err => {
     context.log.error(decorateError(err), 'Failed to save coupon code')
   })
 }
@@ -55,11 +47,10 @@ const saveCouponCode = async function (couponCode, context) {
  * @param {ApiteSW6Helper.PipelineContext} context
  * @return {Promise<void>}
  */
-const removeCouponCode = async function (context) {
-  await _getStorage(context).del('couponCode').catch(err => {
+const removeCouponCode = async context =>
+  _getStorage(context).del('couponCode').catch(err =>
     context.log.error(decorateError(err), 'Failed to remove coupon code')
-  })
-}
+  )
 
 /**
  * @param {ApiteSW6Helper.PipelineContext} context
