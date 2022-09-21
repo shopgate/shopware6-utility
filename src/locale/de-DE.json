@@ -1,0 +1,41 @@
+{
+  "ApiteSW6Utility": {
+    "general": {
+      "maintenanceModeHeader": "Wartungsmodus",
+      "maintenanceModeDescription": "Wir aktualisieren derzeit die Inhalte dieser Seite. Bitte schauen Sie später wieder vorbei."
+    },
+    "cart": {
+      "summaryShipping": "Versandkosten"
+    },
+    "notice": {
+      "VIOLATION::CUSTOMER_EMAIL_NOT_UNIQUE": "Diese E-Mail-Adresse ist bereits registriert.",
+      "VIOLATION::CUSTOMER_PASSWORD_NOT_CORRECT": "Das Passwort ist nicht korrekt.",
+      "FRAMEWORK__INVALID_UUID": "Die gewählte Zahlungsart konnte nicht gefunden werden.",
+      "message-default": "Leider ist etwas schief gelaufen",
+      "addToCartError": "Beim Hinzufügen zum Warenkorb ist ein Fehler aufgetreten.",
+      "product-not-found": "Das Produkt wurde nicht gefunden.",
+      "message-403": "Die Sitzung ist abgelaufen. Bitte kehren Sie zur letzten Seite zurück neu und versuchen Sie  es erneut.",
+      "product-out-of-stock": "{name} ist momentan nicht verfügbar.",
+      "product-stock-reached": "Das Produkt \"{name}\" ist nur noch {quantity} mal verfügbar",
+      "purchase-steps-quantity": "Das Produkt \"{name}\" ist nicht in der gewünschten Menge verfügbar. Die Menge wurde auf {quantity} geändert.",
+      "shipping-method-blocked": "Die Versandart \"{name}\" ist für Ihren aktuellen Warenkorb gesperrt.",
+      "payment-method-blocked": "Die Zahlungsart \"{name}\" ist für Ihren aktuellen Warenkorb gesperrt.",
+      "auto-promotion-not-found": "Die Rabattaktion \"{name}\" ist nicht mehr gültig!",
+      "promotion-discount-added": "Rabatt wurde dem Warenkorb hinzugefügt",
+      "promotion-excluded": "Mindestens ein Rabatt wurde wegen Konflikten mit anderen Rabatten aus dem Warenkorb entfernt. Sobald die Bedingungen wieder zutreffen, wird der Rabatt automatisch hinzugefügt.",
+      "promotion-not-eligible": "Der Gutschein-Code wurde gespeichert, aber nicht auf den Warenkorb angewendet, da die Voraussetzungen dafür nicht zutreffen. Sobald die Voraussetzungen zutreffen, wird er automatisch hinzugefügt.",
+      "promotion-not-found": "Der Gutschein-Code \"{code}\" existiert nicht.",
+      "shipping-address-blocked": "Lieferungen an die gewählte Lieferadresse sind nicht möglich.",
+      "billing-address-blocked": "Rechnungen können nicht an die gewählte Rechnungsadresse ausgestellt werden.",
+      "shipping-address-invalid": "Die gewählte Versandadresse ist nicht gültig oder unvollständig. Bitte prüfen Sie Ihre Eingaben.",
+      "billing-address-invalid": "Die gewählte Rechnungsadresse ist nicht gültig oder unvollständig. Bitte prüfen Sie Ihre Eingaben.",
+      "cart-merged-hint": "Der aktuelle Warenkorb enthält u.U. zusätzliche Produkte, die noch von einem früheren Besuch gespeichert waren.",
+      "rateLimitExceeded": "Zu viele Anfragen. Bitte warten, bevor Sie es erneut versuchen.",
+      "loginBadCredentials": "Es konnte kein Account mit den angegebenen Zugangsdaten gefunden werden.",
+      "inactiveAccountAlert": "Ihr Kundenkonto wurde noch nicht aktiviert. Wir haben Ihnen einen Aktivierungslink geschickt. Bitte prüfen Sie Ihr E-Mail-Postfach, um die Anmeldung abzuschließen!"
+    },
+    "app": {
+      "not-in-sync": "Die Sitzung ist abgelaufen. Bitte loggen Sie sich erneut ein."
+    }
+  }
+}
