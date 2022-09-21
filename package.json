@@ -18,7 +18,8 @@
   },
   "dependencies": {
     "@shopware-pwa/shopware-6-client": "^1.5.3",
-    "nanoid": "2.1.11"
+    "nanoid": "2.1.11",
+    "lodash.get": "^4.4.2"
   },
   "devDependencies": {
     "@types/node": "^17.0.19",

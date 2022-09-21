@@ -1,5 +1,49 @@
 'use strict'
 
+class CartError extends Error {
+  constructor (message = 'message-default', code = 'EUNKNOWN', entityId = '') {
+    super()
+    this.message = 'Error'
+    this.code = 'ECART'
+    /**
+     * @type {ApiteSW6Cart.SGCartError[]}
+     */
+    this.errors = [{ entityId, code, message: `ApiteSW6Utility.notice.${message}`, translated: false }]
+  }
+
+  /**
+   * @param {ApiteSW6Cart.SWEntityError} error
+   * @param {string} code - Shopgate Error code, e.g. EUNKNOWN
+   * @return {CartError}
+   */
+  mapEntityError (error, code = 'ESWERROR') {
+    this.errors = [{
+      entityId: error.id,
+      code,
+      message: 'ApiteSW6Utility.notice.' + error.messageKey,
+      messageParams: { ...error },
+      translated: false
+    }]
+    return this
+  }
+}
+
+class ProductNotFoundError extends CartError {
+  constructor (entityId = '') {
+    super('product-not-found', 'ENOTFOUND', entityId)
+  }
+}
+
+class ProductStockReachedError extends CartError {}
+
+class PromoAddedError extends CartError {}
+
+class PromoNotFoundError extends CartError {}
+
+class PromoNotEligibleError extends CartError {}
+
+class AutoPromoNotEligibleError extends CartError {}
+
 class TranslatableError extends Error {
   constructor (message, code, params = {}) {
     super()
@@ -10,15 +54,15 @@ class TranslatableError extends Error {
 }
 
 class ThrottledError extends TranslatableError {
-  constructor () { super('SW6User.notice.rateLimitExceeded', 'EREQUESTTHROTTLED') }
+  constructor () { super('ApiteSW6Utility.notice.rateLimitExceeded', 'EREQUESTTHROTTLED') }
 }
 
 class InvalidCredentialsError extends TranslatableError {
-  constructor () { super('SW6User.notice.loginBadCredentials', 'EBADCREDENTIALS') }
+  constructor () { super('ApiteSW6Utility.notice.loginBadCredentials', 'EBADCREDENTIALS') }
 }
 
 class InactiveAccountError extends TranslatableError {
-  constructor () { super('SW6User.notice.inactiveAccountAlert', 'EINACTIVEACCOUNT') }
+  constructor () { super('ApiteSW6Utility.notice.inactiveAccountAlert', 'EINACTIVEACCOUNT') }
 }
 
 /**
@@ -29,7 +73,7 @@ class UnauthorizedError extends TranslatableError {
 }
 
 class UnknownError extends TranslatableError {
-  constructor () { super('SW6User.notice.message-default', 'EUNKNOWN') }
+  constructor () { super('ApiteSW6Utility.notice.message-default', 'EUNKNOWN') }
 }
 
 /**
@@ -38,13 +82,20 @@ class UnknownError extends TranslatableError {
  * catcher, so it's possible this error may not be fired.
  */
 class ContextDeSyncError extends TranslatableError {
-  constructor () { super('SW6User.app.not-in-sync', 'EUSERDESYNC') }
+  constructor () { super('ApiteSW6Utility.app.not-in-sync', 'EDESYNC') }
 }
 
 module.exports = {
+  AutoPromoNotEligibleError,
+  CartError,
   ContextDeSyncError,
   InactiveAccountError,
   InvalidCredentialsError,
+  PromoAddedError,
+  PromoNotEligibleError,
+  PromoNotFoundError,
+  ProductNotFoundError,
+  ProductStockReachedError,
   ThrottledError,
   UnauthorizedError,
   UnknownError
