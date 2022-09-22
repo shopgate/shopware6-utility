@@ -76,6 +76,65 @@
                 }
               },
               "response": []
+            },
+            {
+              "name": "SW: enable wishlist",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test(\"Status code is 200\", function () {\r",
+                      "    pm.response.to.have.status(200);\r",
+                      "});"
+                    ],
+                    "type": "text/javascript"
+                  }
+                }
+              ],
+              "protocolProfileBehavior": {
+                "disabledSystemHeaders": {}
+              },
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{gen_access_token}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"write-system-config\": {\r\n        \"entity\": \"system_config\",\r\n        \"action\": \"upsert\",\r\n        \"payload\": [\r\n            {\r\n                \"configurationKey\": \"core.cart.wishlistEnabled\",\r\n                \"configurationValue\": true,\r\n                \"salesChannelId\": \"{{gen_salesChannel_id}}\"\r\n            }\r\n        ]\r\n    }\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{sw_endpoint_api}}/_action/sync",
+                  "host": [
+                    "{{sw_endpoint_api}}"
+                  ],
+                  "path": [
+                    "_action",
+                    "sync"
+                  ]
+                }
+              },
+              "response": []
             }
           ]
         },
@@ -3578,6 +3637,699 @@
             }
           },
           "response": []
+        }
+      ]
+    },
+    {
+      "name": "favorites",
+      "item": [
+        {
+          "name": "guest",
+          "item": [
+            {
+              "name": "customerLogout",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test(\"Status code is 200\", function () {\r",
+                      "    pm.response.to.have.status(200);\r",
+                      "});\r",
+                      "\r",
+                      "pm.test(\"Success property is a boolean\", function () {\r",
+                      "    const jsonData = pm.response.json();\r",
+                      "    pm.expect(jsonData).to.haveOwnProperty('success').to.be.a('boolean');\r",
+                      "});"
+                    ],
+                    "type": "text/javascript"
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{}"
+                },
+                "url": {
+                  "raw": "{{domain}}{{endpoint_user_logout}}",
+                  "host": [
+                    "{{domain}}{{endpoint_user_logout}}"
+                  ]
+                },
+                "description": "customerLogout"
+              },
+              "response": []
+            },
+            {
+              "name": "status",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "tests[\"Response code is 200\"] = responseCode.code === 200;\r",
+                      "\r",
+                      "tests[\"Content-Type is application/json\"] = responseHeaders[\"Content-Type\"].has(\"application/json\");\r",
+                      "\r",
+                      "var jsonResponse = JSON.parse(responseBody);\r",
+                      "\r",
+                      "tests[\"Test if backend is running\"] = jsonResponse.status === 'is running';\r",
+                      ""
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{domain}}/status",
+                  "host": [
+                    "{{domain}}"
+                  ],
+                  "path": [
+                    "status"
+                  ]
+                },
+                "description": "Smoke http call to make sure platform backend is running"
+              },
+              "response": []
+            },
+            {
+              "name": "getProducts_v1",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "tests[\"Response code is 200\"] = responseCode.code === 200;\r",
+                      "\r",
+                      "tests[\"Content-Type is application/json\"] = responseHeaders[\"Content-Type\"].has(\"application/json\");\r",
+                      "\r",
+                      "var jsonResponse = JSON.parse(responseBody);\r",
+                      "\r",
+                      "tests[\"Products are  array\"] = Array.isArray(jsonResponse.products);\r",
+                      "\r",
+                      "tests[\"Products are not empty\"] = jsonResponse.products.length !== 0;\r",
+                      "\r",
+                      "postman.setEnvironmentVariable(\"productId\", jsonResponse.products[0].id);\r",
+                      ""
+                    ],
+                    "type": "text/javascript"
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n\t\"searchPhrase\": \"Main product\"\n}"
+                },
+                "url": {
+                  "raw": "{{domain}}{{endpoint_catalog_products_get}}",
+                  "host": [
+                    "{{domain}}{{endpoint_catalog_products_get}}"
+                  ]
+                },
+                "description": "Call getProducts_v1 pipeline to find and extract a product to make further tests on it.\nStore found productId to ENV variable `productId`"
+              },
+              "response": []
+            },
+            {
+              "name": "getFavorites_v1",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "tests[\"Response code is 200\"] = responseCode.code === 200;\r",
+                      "\r",
+                      "tests[\"Content-Type is application/json\"] = responseHeaders[\"Content-Type\"].has(\"application/json\");\r",
+                      "\r",
+                      "var jsonResponse = JSON.parse(responseBody);\r",
+                      "\r",
+                      "tests[\"Products are  array\"] = Array.isArray(jsonResponse.products);\r",
+                      "\r",
+                      "tests[\"Products are empty\"] = jsonResponse.products.length === 0;"
+                    ],
+                    "type": "text/javascript"
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \r\n}"
+                },
+                "url": {
+                  "raw": "{{domain}}{{endpoint_user_favorites_get}}",
+                  "host": [
+                    "{{domain}}{{endpoint_user_favorites_get}}"
+                  ]
+                },
+                "description": "Get favorite items of anonymous user.\nTest if list is empty"
+              },
+              "response": []
+            },
+            {
+              "name": "addFavorites_v1",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "tests[\"Response code is 200\"] = responseCode.code === 200;\r",
+                      "\r",
+                      "tests[\"Content-Type is application/json\"] = responseHeaders[\"Content-Type\"].has(\"application/json\");\r",
+                      "\r",
+                      ""
+                    ],
+                    "type": "text/javascript"
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n\t\"productId\": [\"{{productId}}\"]\r\n}"
+                },
+                "url": {
+                  "raw": "{{domain}}{{endpoint_user_favorites_add}}",
+                  "host": [
+                    "{{domain}}{{endpoint_user_favorites_add}}"
+                  ]
+                },
+                "description": "Add favorite item `productId` to anonymous user."
+              },
+              "response": []
+            },
+            {
+              "name": "getFavorites_v1",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "tests[\"Response code is 200\"] = responseCode.code === 200;\r",
+                      "\r",
+                      "tests[\"Content-Type is application/json\"] = responseHeaders[\"Content-Type\"].has(\"application/json\");\r",
+                      "\r",
+                      "var jsonResponse = JSON.parse(responseBody);\r",
+                      "\r",
+                      "tests[\"Products are of array type\"] = Array.isArray(jsonResponse.products);\r",
+                      "\r",
+                      "tests[\"Products count: 1\"] = jsonResponse.products.length === 1;\r",
+                      "\r",
+                      "tests[\"Product is found\"] = false;\r",
+                      "jsonResponse.products.forEach( function(product) { \r",
+                      "    if (product.id === postman.getEnvironmentVariable(\"productId\")) {\r",
+                      "     tests[\"Product is found\"] = true;\r",
+                      "    }\r",
+                      "} );"
+                    ],
+                    "type": "text/javascript"
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{}"
+                },
+                "url": {
+                  "raw": "{{domain}}{{endpoint_user_favorites_get}}",
+                  "host": [
+                    "{{domain}}{{endpoint_user_favorites_get}}"
+                  ]
+                },
+                "description": "Get favorite items for anonymous user.\nTest if we have `productId` in a list."
+              },
+              "response": []
+            },
+            {
+              "name": "deleteFavorites_v1",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "tests[\"Response code is 200\"] = responseCode.code === 200;\r",
+                      "\r",
+                      "tests[\"Content-Type is application/json\"] = responseHeaders[\"Content-Type\"].has(\"application/json\");\r",
+                      "\r",
+                      ""
+                    ],
+                    "type": "text/javascript"
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n\t\"productId\": [\"{{productId}}\"]\r\n}"
+                },
+                "url": {
+                  "raw": "{{domain}}{{endpoint_user_favorites_delete}}",
+                  "host": [
+                    "{{domain}}{{endpoint_user_favorites_delete}}"
+                  ]
+                },
+                "description": "Delete `productId` from favorite items of anonymous user"
+              },
+              "response": []
+            },
+            {
+              "name": "getFavorites_v1",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "tests[\"Response code is 200\"] = responseCode.code === 200;\r",
+                      "\r",
+                      "tests[\"Content-Type is application/json\"] = responseHeaders[\"Content-Type\"].has(\"application/json\");\r",
+                      "\r",
+                      "var jsonResponse = JSON.parse(responseBody);\r",
+                      "\r",
+                      "tests[\"Products are  array\"] = Array.isArray(jsonResponse.products);\r",
+                      "\r",
+                      "tests[\"Products are empty\"] = jsonResponse.products.length === 0;"
+                    ],
+                    "type": "text/javascript"
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{}"
+                },
+                "url": {
+                  "raw": "{{domain}}{{endpoint_user_favorites_get}}",
+                  "host": [
+                    "{{domain}}{{endpoint_user_favorites_get}}"
+                  ]
+                },
+                "description": "Get favorites to test if `productId` is removed from a list"
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "customer",
+          "item": [
+            {
+              "name": "addFavorites_v1",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "tests[\"Response code is 200\"] = responseCode.code === 200;\r",
+                      "\r",
+                      "tests[\"Content-Type is application/json\"] = responseHeaders[\"Content-Type\"].has(\"application/json\");\r",
+                      "\r",
+                      ""
+                    ],
+                    "type": "text/javascript"
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n\t\"productId\": [\"{{productId}}\"]\r\n}"
+                },
+                "url": {
+                  "raw": "{{domain}}{{endpoint_user_favorites_add}}",
+                  "host": [
+                    "{{domain}}{{endpoint_user_favorites_add}}"
+                  ]
+                },
+                "description": "Add favorite item `productId` to anonymous user before login action"
+              },
+              "response": []
+            },
+            {
+              "name": "login_v1",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "tests[\"Response code is 200\"] = responseCode.code === 200;\r",
+                      "\r",
+                      "tests[\"Content-Type is application/json\"] = responseHeaders[\"Content-Type\"].has(\"application/json\");\r",
+                      "\r",
+                      "var jsonResponse = JSON.parse(responseBody);\r",
+                      "\r",
+                      "tests[\"Login is success\"] = jsonResponse.success === true;"
+                    ],
+                    "type": "text/javascript"
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n\t\"strategy\": \"basic\",\r\n\t\"parameters\": {\r\n\t\t\"login\": \"{{username}}\",\r\n\t\t\"password\": \"{{password}}\"\r\n\t}\r\n}"
+                },
+                "url": {
+                  "raw": "{{domain}}{{endpoint_user_login}}",
+                  "host": [
+                    "{{domain}}{{endpoint_user_login}}"
+                  ]
+                },
+                "description": "Login user.\nAfter this step we assum that anymous favorite items are migrated to logged in user.\nTest is login is success."
+              },
+              "response": []
+            },
+            {
+              "name": "getFavorites_v1",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "tests[\"Response code is 200\"] = responseCode.code === 200;\r",
+                      "\r",
+                      "tests[\"Content-Type is application/json\"] = responseHeaders[\"Content-Type\"].has(\"application/json\");\r",
+                      "\r",
+                      "var jsonResponse = JSON.parse(responseBody);\r",
+                      "\r",
+                      "tests[\"Products are of array type\"] = Array.isArray(jsonResponse.products);\r",
+                      "\r",
+                      "tests[\"Products count: 1\"] = jsonResponse.products.length === 1;\r",
+                      "\r",
+                      "tests[\"Product is found\"] = false;\r",
+                      "jsonResponse.products.forEach( function(product) { \r",
+                      "    if (product.id === postman.getEnvironmentVariable(\"productId\")) {\r",
+                      "     tests[\"Product is found\"] = true;\r",
+                      "    }\r",
+                      "} );"
+                    ],
+                    "type": "text/javascript"
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{}"
+                },
+                "url": {
+                  "raw": "{{domain}}{{endpoint_user_favorites_get}}",
+                  "host": [
+                    "{{domain}}{{endpoint_user_favorites_get}}"
+                  ]
+                },
+                "description": "Get favorite items for recently logged in user.\nTest if we have `productId` in a list."
+              },
+              "response": []
+            },
+            {
+              "name": "deleteFavorites_v1",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "tests[\"Response code is 200\"] = responseCode.code === 200;\r",
+                      "\r",
+                      "tests[\"Content-Type is application/json\"] = responseHeaders[\"Content-Type\"].has(\"application/json\");\r",
+                      "\r",
+                      ""
+                    ],
+                    "type": "text/javascript"
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n\t\"productId\": [\"{{productId}}\"]\r\n}"
+                },
+                "url": {
+                  "raw": "{{domain}}{{endpoint_user_favorites_delete}}",
+                  "host": [
+                    "{{domain}}{{endpoint_user_favorites_delete}}"
+                  ]
+                },
+                "description": "Delete `productId` from favorite items of logged in user"
+              },
+              "response": []
+            },
+            {
+              "name": "getFavorites_v1",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "tests[\"Response code is 200\"] = responseCode.code === 200;\r",
+                      "\r",
+                      "tests[\"Content-Type is application/json\"] = responseHeaders[\"Content-Type\"].has(\"application/json\");\r",
+                      "\r",
+                      "var jsonResponse = JSON.parse(responseBody);\r",
+                      "\r",
+                      "tests[\"Products are  array\"] = Array.isArray(jsonResponse.products);\r",
+                      "\r",
+                      "tests[\"Products are empty\"] = jsonResponse.products.length === 0;"
+                    ],
+                    "type": "text/javascript"
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{}"
+                },
+                "url": {
+                  "raw": "{{domain}}{{endpoint_user_favorites_get}}",
+                  "host": [
+                    "{{domain}}{{endpoint_user_favorites_get}}"
+                  ]
+                },
+                "description": "Get favorites to test if `productId` is removed from a list"
+              },
+              "response": []
+            },
+            {
+              "name": "addFavorites_v1",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "tests[\"Response code is 200\"] = responseCode.code === 200;\r",
+                      "\r",
+                      "tests[\"Content-Type is application/json\"] = responseHeaders[\"Content-Type\"].has(\"application/json\");\r",
+                      "\r",
+                      ""
+                    ],
+                    "type": "text/javascript"
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n\t\"productId\": [\"{{productId}}\"]\r\n}"
+                },
+                "url": {
+                  "raw": "{{domain}}{{endpoint_user_favorites_add}}",
+                  "host": [
+                    "{{domain}}{{endpoint_user_favorites_add}}"
+                  ]
+                },
+                "description": "Add favorite item `productId` to logged in user before logout action"
+              },
+              "response": []
+            },
+            {
+              "name": "logout_v1",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "tests[\"Response code is 200\"] = responseCode.code === 200;\r",
+                      "\r",
+                      "tests[\"Content-Type is application/json\"] = responseHeaders[\"Content-Type\"].has(\"application/json\");\r",
+                      "\r",
+                      "var jsonResponse = JSON.parse(responseBody);\r",
+                      "\r",
+                      "tests[\"Logout is success\"] = jsonResponse.success === true;"
+                    ],
+                    "type": "text/javascript"
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{}"
+                },
+                "url": {
+                  "raw": "{{domain}}{{endpoint_user_logout}}",
+                  "host": [
+                    "{{domain}}{{endpoint_user_logout}}"
+                  ]
+                },
+                "description": "Logout.\nTest if logout is success"
+              },
+              "response": []
+            },
+            {
+              "name": "getFavorites_v1",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "tests[\"Response code is 200\"] = responseCode.code === 200;\r",
+                      "\r",
+                      "tests[\"Content-Type is application/json\"] = responseHeaders[\"Content-Type\"].has(\"application/json\");\r",
+                      "\r",
+                      "var jsonResponse = JSON.parse(responseBody);\r",
+                      "\r",
+                      "tests[\"Products are  array\"] = Array.isArray(jsonResponse.products);\r",
+                      "\r",
+                      "tests[\"Products are empty\"] = jsonResponse.products.length === 0;"
+                    ],
+                    "type": "text/javascript"
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{}"
+                },
+                "url": {
+                  "raw": "{{domain}}{{endpoint_user_favorites_get}}",
+                  "host": [
+                    "{{domain}}{{endpoint_user_favorites_get}}"
+                  ]
+                },
+                "description": "Get favorites.\nTest if list is empty after user is logged out"
+              },
+              "response": []
+            }
+          ]
         }
       ]
     }

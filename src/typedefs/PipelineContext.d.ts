@@ -1,10 +1,11 @@
 import * as Logger from 'bunyan'
 import { ApiteSW6User } from './User'
 import { ApiteSW6Cart } from './Cart'
+import { ApiteSW6Favorites } from './Favorites'
 
 declare namespace ApiteSW6Helper {
     interface PipelineContext {
-        config: ApiteSW6Cart.PipelineConfiguration | ApiteSW6User.PipelineConfiguration
+        config: ApiteSW6Cart.PipelineConfiguration | ApiteSW6User.PipelineConfiguration | ApiteSW6Favorites.PipelineConfiguration
         log: Logger
         meta: PipelineContextMeta
         storage: PipelineStorageContainer

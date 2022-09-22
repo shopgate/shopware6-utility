@@ -1,11 +1,11 @@
 # Shopgate Web Checkout utility for Shopware 6 extensions
 
-### Purpose
+## Purpose
 This package is developed in support for Shopgate Connect & Engage extensions for Shopware 6.
 
-### Development Instructions
+## Development Instructions
 
-#### Adding files to the watch list
+### Adding files to the watch list
 
 This module can be required as a dependency as a local package first, something along these lines:
 

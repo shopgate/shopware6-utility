@@ -125,14 +125,14 @@ const throwOnMessage = function (messages, context) {
       case 'CHECKOUT__CUSTOMER_IS_INACTIVE':
         context.log.error(decorateError(message), 'Customer is not active. Needs to confirm account in email.')
         throw new InactiveAccountError()
+      case 'CHECKOUT__DUPLICATE_WISHLIST_PRODUCT':
+        context.log.info(decorateError(message), 'Duplicate product found when merging wishlist')
+        break
       default:
         context.log.error(decorateError(message), 'Unmapped error')
         throw new UnknownError()
     }
   })
-  // hard fallback
-  context.log.error('The error did not have messages provided')
-  throw new UnknownError()
 }
 
 /**
@@ -153,10 +153,13 @@ const throwOnApiError = function (error, context) {
       break
     case 401:
       context.log.fatal(decorateError(error), 'Unauthorized request, is your SalesChannel access token missing?')
-      throw UnknownError()
-    case 403:
-      context.log.fatal(decorateError(error), 'Cannot call this endpoint without authentication')
       throw new UnknownError()
+    case 403:
+      context.log.fatal(decorateError(error), 'No authentication or wishlist is not activated in Shopware')
+      throw new UnknownError()
+    case 404:
+      context.log.warn(decorateError(error), 'Product does not exists, de-sync between cached catalog & Shopware')
+      break
     case 412:
       context.log.fatal(decorateError(error), 'Possibly SalesChannel access key is invalid.')
       throw new UnknownError()
@@ -177,6 +180,7 @@ const throwOnApiError = function (error, context) {
 const standardizeErrorMessages = (error) => {
   error.messages.forEach(message => {
     if (message.code === '0' && message.status === '401') {
+      error.statusCode = 400
       message.code = 'CHECKOUT__CUSTOMER_AUTH_BAD_CREDENTIALS'
     }
     return message
