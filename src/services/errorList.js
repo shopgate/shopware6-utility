@@ -12,7 +12,7 @@ class CartError extends Error {
   }
 
   /**
-   * @param {ApiteSW6Cart.SWEntityError} error
+   * @param {ApiteSW6Utility.SWEntityError} error
    * @param {string} code - Shopgate Error code, e.g. EUNKNOWN
    * @return {CartError}
    */

@@ -5,15 +5,15 @@
  */
 const logDecorator = (extensionName = '@apite-shopware6-helper') => {
   /**
-   * @param {ApiteSW6Helper.SWClientApiError|ApiteSW6Helper.SWEntityError|ApiteSW6Helper.ShopwareError|Error} error
-   * @return {ApiteSW6Helper.SWEntityError[]|ApiteSW6Helper.ShopwareError[]|string[]}
+   * @param {ApiteSW6Utility.SWClientApiError|ApiteSW6Utility.SWEntityError|ApiteSW6Utility.SWError|Error} error
+   * @return {ApiteSW6Utility.SWEntityError[]|ApiteSW6Utility.SWError[]|string[]}
    */
   const extractErrorMessages = (error) => {
     if (error.statusCode) {
       // SWClientApiError
       return error.messages
     } else if (error.messageKey || error.status) {
-      // SWEntityError | ShopwareError
+      // SWEntityError | SWError
       return [error]
     }
     // Error
@@ -21,7 +21,7 @@ const logDecorator = (extensionName = '@apite-shopware6-helper') => {
   }
 
   /**
-   * @param {ApiteSW6Helper.SWClientApiError|ApiteSW6Helper.SWEntityError|ApiteSW6Helper.ShopwareError|Error} error
+   * @param {ApiteSW6Utility.SWClientApiError|ApiteSW6Utility.SWEntityError|ApiteSW6Utility.SWError|Error} error
    * @return {string|number}
    */
   const extractErrorCode = (error) => {
@@ -36,8 +36,8 @@ const logDecorator = (extensionName = '@apite-shopware6-helper') => {
   }
 
   /**
-   * @param {ApiteSW6Helper.SWClientApiError|ApiteSW6Helper.SWEntityError|ApiteSW6Helper.ShopwareError|Error} error
-   * @return {{extension: string, code: (string|number), messages: (ApiteSW6Helper.SWEntityError[]|ApiteSW6Helper.ShopwareError[]|string[])}}
+   * @param {ApiteSW6Utility.SWClientApiError|ApiteSW6Utility.SWEntityError|ApiteSW6Utility.SWError|Error} error
+   * @return {{extension: string, code: (string|number), messages: (ApiteSW6Utility.SWEntityError[]|ApiteSW6Utility.SWError[]|string[])}}
    */
   const decorateError = (error) => ({
     extension: extensionName,
@@ -53,8 +53,7 @@ const logDecorator = (extensionName = '@apite-shopware6-helper') => {
   const decorateMessage = (message, code = 15) => ({
     extension: extensionName,
     code,
-    messages: [message],
-    stack: error.stack
+    messages: [message]
   })
 
   return { decorateError, decorateMessage }

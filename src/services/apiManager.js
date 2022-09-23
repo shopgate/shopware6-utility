@@ -1,19 +1,14 @@
 'use strict'
-/* eslint-disable no-unused-vars */
 
-const {
-  createInstance,
-  ShopwareApiInstance,
-  ClientSettings
-} = require('@shopware-pwa/shopware-6-client')
+const { createInstance } = require('@shopware-pwa/shopware-6-client')
 const { getContextToken, saveContextToken } = require('./contextManager')
 const { getEndpoint, getAccessToken, getLanguageId } = require('./configManager')
 
 /**
- * @param {ApiteSW6Helper.PipelineContext} context
- * @param {ClientSettings|{}} config
+ * @param {ApiteSW6Utility.PipelineContext} context
+ * @param {ApiteSW6Utility.SWClientSettings|{}} config
  * @param {boolean} saveToken - whether to save the token to storage after a successful API call
- * @returns {ShopwareApiInstance}
+ * @returns {ApiteSW6Utility.SWApiInstance}
  */
 const createApiConfig = async (context, config = {}, saveToken = true) => {
   const endpoint = getEndpoint(context)
@@ -21,7 +16,7 @@ const createApiConfig = async (context, config = {}, saveToken = true) => {
   const languageId = getLanguageId(context)
   const contextToken = await getContextToken(context)
 
-  /** @var {ClientSettings} newConfig */
+  /** @var {ApiteSW6Utility.SWClientSettings} newConfig */
   const newConfig = Object.assign({
     endpoint,
     accessToken,

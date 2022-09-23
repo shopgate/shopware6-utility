@@ -4,14 +4,14 @@ const { decorateError, decorateMessage } = require('./logDecorator')
 /**
  * Select storage to use: device or user (if logged in)
  *
- * @param {ApiteSW6Helper.PipelineContext} context
- * @return ApiteSW6Helper.PipelineStorage
+ * @param {ApiteSW6Utility.PipelineContext} context
+ * @return ApiteSW6Utility.PipelineStorage
  * @private
  */
 const _getStorage = context => context.meta.userId ? context.storage.user : context.storage.device
 
 /**
- * @param {ApiteSW6Helper.PipelineContext} context
+ * @param {ApiteSW6Utility.PipelineContext} context
  * @return {Promise<string>}
  */
 const getContextToken = async context => _getStorage(context).get('contextToken')
@@ -20,7 +20,7 @@ const getContextToken = async context => _getStorage(context).get('contextToken'
  * Saves the current checkout token into internal storage (user or device)
  *
  * @param {string} contextToken
- * @param {ApiteSW6Helper.PipelineContext} context
+ * @param {ApiteSW6Utility.PipelineContext} context
  * @returns Promise<void>
  */
 const saveContextToken = async (contextToken, context) =>
@@ -30,7 +30,7 @@ const saveContextToken = async (contextToken, context) =>
 
 /**
  * @param {string} couponCode
- * @param {ApiteSW6Helper.PipelineContext} context
+ * @param {ApiteSW6Utility.PipelineContext} context
  * @return {Promise<void>}
  */
 const saveCouponCode = async (couponCode, context) => {
@@ -44,7 +44,7 @@ const saveCouponCode = async (couponCode, context) => {
 }
 
 /**
- * @param {ApiteSW6Helper.PipelineContext} context
+ * @param {ApiteSW6Utility.PipelineContext} context
  * @return {Promise<void>}
  */
 const removeCouponCode = async context =>
@@ -53,7 +53,7 @@ const removeCouponCode = async context =>
   )
 
 /**
- * @param {ApiteSW6Helper.PipelineContext} context
+ * @param {ApiteSW6Utility.PipelineContext} context
  * @return {Promise<string>}
  */
 const getCouponCode = async context => _getStorage(context).get('couponCode')

@@ -5,7 +5,7 @@ const { UnknownError } = require('./errorList')
 
 /**
  * @param {any} property
- * @param {ApiteSW6Helper.PipelineContext} context
+ * @param {ApiteSW6Utility.PipelineContext} context
  * @returns {void}
  * @throws {UnknownError}
  */
@@ -17,7 +17,7 @@ const validate = (property, context) => {
 }
 
 /**
- * @param {ApiteSW6Helper.PipelineContext} context
+ * @param {ApiteSW6Utility.PipelineContext} context
  * @returns {string|undefined}
  */
 const getEndpoint = context => {
@@ -27,7 +27,7 @@ const getEndpoint = context => {
 }
 
 /**
- * @param {ApiteSW6Helper.PipelineContext} context
+ * @param {ApiteSW6Utility.PipelineContext} context
  * @returns {string|undefined}
  */
 const getAccessToken = context => {
@@ -37,7 +37,7 @@ const getAccessToken = context => {
 }
 
 /**
- * @param {ApiteSW6Helper.PipelineContext} context
+ * @param {ApiteSW6Utility.PipelineContext} context
  * @returns {string|undefined}
  */
 const getLanguageId = context => process.env.SW_LANG_ID || context.config.languageId

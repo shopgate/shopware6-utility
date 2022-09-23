@@ -16,9 +16,9 @@ const {
 const { decorateError } = require('./logDecorator')()
 
 /**
- * @param {ApiteSW6Helper.SWErrorLevel} shopwareType
+ * @param {ApiteSW6Utility.SWErrorLevel} shopwareType
  */
-const toShopgateType = function (shopwareType) {
+const toShopgateType = shopwareType => {
   switch (shopwareType) {
     case 20:
       return 'error'
@@ -31,24 +31,22 @@ const toShopgateType = function (shopwareType) {
 }
 
 /**
- * @param {ApiteSW6Helper.SWEntityError} error
- * @return SGCartMessage
+ * @param {ApiteSW6Utility.SWEntityError} error
+ * @return {ApiteSW6Cart.SGCartMessage}
  */
-const toShopgateMessage = function (error) {
-  return {
-    type: toShopgateType(error.level),
-    code: error.messageKey,
-    message: error.message,
-    messageParams: {},
-    translated: true
-  }
-}
+const toShopgateMessage = (error) => ({
+  type: toShopgateType(error.level),
+  code: error.messageKey,
+  message: error.message,
+  messageParams: {},
+  translated: true
+})
 
 /**
  * Note that this only throws if errors are present
  *
- * @param {ApiteSW6Helper.SWCartErrors} errorList
- * @param {ApiteSW6Helper.PipelineContext} context
+ * @param {ApiteSW6Utility.SWCartErrors} errorList
+ * @param {ApiteSW6Utility.PipelineContext} context
  * @throws {Error}
  */
 const throwOnCartErrors = function (errorList, context) {
@@ -81,8 +79,8 @@ const throwOnCartErrors = function (errorList, context) {
  * Sometimes we want to throw even on information messages
  * to show customer information via Error modal
  *
- * @param {ApiteSW6Helper.SWCartErrors} errorList
- * @param {ApiteSW6Helper.PipelineContext} context
+ * @param {ApiteSW6Utility.SWCartErrors} errorList
+ * @param {ApiteSW6Utility.PipelineContext} context
  * @throws {Error}
  */
 const throwOnCartInfoErrors = function (errorList, context) {
@@ -102,9 +100,9 @@ const throwOnCartInfoErrors = function (errorList, context) {
 }
 
 /**
- * @param {ApiteSW6Helper.ShopwareError[]} messages
- * @param {ApiteSW6Helper.PipelineContext} context
- * @throws Error
+ * @param {ApiteSW6Utility.SWError[]} messages
+ * @param {ApiteSW6Utility.PipelineContext} context
+ * @throws {Error}
  */
 const throwOnMessage = function (messages, context) {
   messages.forEach(message => {
@@ -136,8 +134,8 @@ const throwOnMessage = function (messages, context) {
 }
 
 /**
- * @param {ApiteSW6Helper.SWClientApiError|Error} error
- * @param {ApiteSW6Helper.PipelineContext} context
+ * @param {ApiteSW6Utility.SWClientApiError|Error} error
+ * @param {ApiteSW6Utility.PipelineContext} context
  * @see https://shopware.stoplight.io/docs/store-api/ZG9jOjExMTYzMDU0-error-handling
  * @throws {Error}
  */
@@ -175,7 +173,7 @@ const throwOnApiError = function (error, context) {
 /**
  * Helps fix inconsistent SW API returned messages
  *
- * @param {ApiteSW6Helper.ClientApiError} error
+ * @param {ApiteSW6Utility.SWClientApiError} error
  */
 const standardizeErrorMessages = (error) => {
   error.messages.forEach(message => {

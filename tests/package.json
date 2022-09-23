@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "full": "node_modules/.bin/newman run -r cli,htmlextra ./postman/collection.json -e ./postman/environment.json -g ./postman/globals.json --reporter-htmlextra-export postman-report.html --color=on --bail",
-    "ci": "node_modules/.bin/newman run -r cli,htmlextra,junit ./postman/collection.json -e ./postman/environment.json -g ./postman/globals.json --color=on --insecure --no-insecure-file-read"
+    "postman-full": "node_modules/.bin/newman run -r cli,htmlextra ./postman/collection.json -e ./postman/environment.json -g ./postman/globals.json --reporter-htmlextra-export postman-report.html --color=on --bail",
+    "postman-ci": "node_modules/.bin/newman run -r cli,htmlextra,junit ./postman/collection.json -e ./postman/environment.json -g ./postman/globals.json --color=on --insecure --no-insecure-file-read"
   },
   "author": "",
   "license": "ISC",
