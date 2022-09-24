@@ -10,11 +10,15 @@ This package is developed in support for Shopgate Connect & Engage extensions fo
 This module can be required as a dependency as a local package first, something along these lines:
 
 ```shell
-npm install --save ../path/to/mymodule
+cd extensions
+git clone git@gitlab.com:apite/shopgate/connect-engage/shopware6-utility.git
+git clone git@gitlab.com:apite/shopgate/connect-engage/ext-shopware6-cart.git
+cd ext-shopware6-cart/extension
+npm install --save ../../shopware6-utility
 sgconnect extension create
 # follow prompt to make a simple backend extension
-cd extensions/some-shopgate-module/extension
-ln -fs ../../../path/to/mymodule/src/services/apiManager.js
+cd ../../extensions/some-created-module/extension
+ln -fs ../../../shopware6-utility/src/services/apiManager.js
 ```
 
 Make sure the extension is attached. Once that is done the apiManager file will be in the watch list 
