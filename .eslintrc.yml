@@ -1,0 +1,5 @@
+root: true
+extends:
+  - ts-standard
+env:
+  node: true
