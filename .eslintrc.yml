@@ -1,5 +1,5 @@
 root: true
 extends:
-  - ts-standard
+  - standard
 env:
   node: true
