@@ -31,7 +31,7 @@ Make sure the extension is attached. Once that is done the apiManager file will 
 - Edit `src/services/apiManager.js` to contain the following:
 
 ```javascript
-  instance.defaults.headers.common['Cookie'] = 'XDEBUG_SESSION=XDEBUG_ECLIPSE;'
+  instance.defaults.headers.common.Cookie = 'XDEBUG_SESSION=XDEBUG_ECLIPSE;'
   instance.defaults.withCredentials = true
 ```
 - Run any pipeline endpoint call via Postman

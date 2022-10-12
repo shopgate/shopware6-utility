@@ -1,7 +1,7 @@
 {
   "name": "@apite/shopware6-utility",
-  "version": "0.1.0",
-  "description": "Shopgate Web Checkout utility for Shopware 6 extensions",
+  "version": "0.2.0",
+  "description": "Shopgate WebCheckout utility for Shopware 6 extensions",
   "license": "Apache-2.0",
   "type": "commonjs",
   "author": {
