@@ -5,7 +5,8 @@
       "maintenanceModeDescription": "We are currently updating this site. Please check back later."
     },
     "cart": {
-      "summaryShipping": "Shipping costs"
+      "summaryShipping": "Shipping costs",
+      "summaryTax": "Tax"
     },
     "notice": {
       "VIOLATION::CUSTOMER_EMAIL_NOT_UNIQUE": "This email address has already been registered.",
