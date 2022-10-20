@@ -1,6 +1,7 @@
 'use strict'
 
 const { invokeGet } = require('@shopware-pwa/shopware-6-client')
+const path = require('path')
 
 const getLoginEndpoint = () => 'sgwebcheckout/login'
 const getLoginTokenEndpoint = () => '/store-api/sgwebcheckout/login/token'
@@ -17,7 +18,7 @@ const getLoginToken = async (api) => invokeGet({ address: getLoginTokenEndpoint(
  * @returns {URL}
  */
 const getLoginUrl = (baseUrl, props) => {
-  const url = new URL(getLoginEndpoint(), baseUrl)
+  const url = new URL(path.join(baseUrl, getLoginEndpoint()))
   Object.keys(props).forEach(key => url.searchParams.append(key, props[key]))
 
   return url
