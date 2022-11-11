@@ -28,10 +28,6 @@ Make sure the extension is attached. Once that is done the apiManager file will 
 
 - Install SW6 [locally](https://docs.dockware.io/use-dockware/advanced-run) & enable xDebug
 - Install [SG Connect](https://gitlab.com/apite/shopgate/shopware6/shopgate-connect) plugin on SW6
-- Edit `src/services/apiManager.js` to contain the following:
-
-```javascript
-  instance.defaults.headers.common.Cookie = 'XDEBUG_SESSION=XDEBUG_ECLIPSE;'
-  instance.defaults.withCredentials = true
-```
-- Run any pipeline endpoint call via Postman
+- Set an .env of `XDEBUG=1`
+- Set a breakpoint in PHP
+- Run any pipeline endpoint call via Postman or using the CloudFlight App

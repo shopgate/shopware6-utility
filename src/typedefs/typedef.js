@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 const {
   CartErrors,
   ClientApiError,
@@ -6,7 +7,8 @@ const {
   EntityError,
   LineItem,
   ShopwareError,
-  SessionContext
+  SessionContext,
+  ReferencePrice
 } = require('@shopware-pwa/commons')
 const { Cart, ShopwareApiInstance } = require('@shopware-pwa/shopware-6-client')
 
@@ -38,3 +40,4 @@ const { Cart, ShopwareApiInstance } = require('@shopware-pwa/shopware-6-client')
 /** @typedef {LineItem} ApiteSW6Utility.SWLineItem */
 /** @typedef {ShopwareApiInstance} ApiteSW6Utility.SWApiInstance */
 /** @typedef {SessionContext} ApiteSW6Utility.SWContext */
+/** @typedef {ReferencePrice} ApiteSW6Utility.ReferencePrice */
