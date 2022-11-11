@@ -17,7 +17,7 @@ build:
   before_script:
     - echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > .npmrc
   script:
-    - yarn
+    - npm install
   cache:
     <<: *cache
     policy: push
@@ -28,7 +28,7 @@ test:
   dependencies:
     - build
   script:
-    - yarn test:ci
+    - npm run test:ci
   cache:
     <<: *cache
   artifacts:
