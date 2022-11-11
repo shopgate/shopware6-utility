@@ -27,6 +27,10 @@ const createApiConfig = async (context, config = {}, saveToken = true) => {
   const instance = createInstance(newConfig)
   // when this check is present, our plugin extends the current expired customer/guest session
   instance.defaults.headers.common['shopgate-check'] = 'true'
+  if (process.env.XDEBUG) {
+    instance.defaults.headers.common.Cookie = 'XDEBUG_SESSION=XDEBUG_ECLIPSE;'
+    instance.defaults.withCredentials = true
+  }
 
   // if current user's token changes it will be saved to SG storage
   instance.onConfigChange(
