@@ -3,19 +3,24 @@ image: node:latest
 stages:
   - build
   - test
+  - publish
+
+.cache: &cache
+  key: build-cache
+  paths:
+    - node_modules/
+    - .npmrc
+  policy: pull
 
 build:
   stage: build
+  before_script:
+    - echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > .npmrc
   script:
     - yarn
   cache:
-    paths:
-      - node_modules/
-  artifacts:
-    expire_in: 1 days
-    when: on_success
-    paths:
-      - node_modules/
+    <<: *cache
+    policy: push
 
 test:
   stage: test
@@ -24,6 +29,8 @@ test:
     - build
   script:
     - yarn test:ci
+  cache:
+    <<: *cache
   artifacts:
     when: always
     reports:
@@ -32,3 +39,15 @@ test:
       coverage_report:
         coverage_format: cobertura
         path: coverage/cobertura-coverage.xml
+
+publish:
+  stage: publish
+  cache:
+    <<: *cache
+    policy: pull
+  only:
+    - tags
+  dependencies:
+    - build
+  script:
+    - npm publish --access public
