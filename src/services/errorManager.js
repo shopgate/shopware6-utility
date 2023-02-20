@@ -66,6 +66,8 @@ const throwOnCartErrors = function (errorList, context) {
         case 'purchase-steps-quantity':
           throw (new ProductStockReachedError().mapEntityError(errorList[key], 'ESTOCKREACHED'))
         case 'shipping-method-blocked':
+        case 'shipping-address-blocked':
+        case 'payment-method-blocked':
           // this is not a hard error, products are still added/updated
           break
         default:
@@ -180,6 +182,8 @@ const standardizeErrorMessages = (error) => {
     if (message.code === '0' && message.status === '401') {
       error.statusCode = 400
       message.code = 'CHECKOUT__CUSTOMER_AUTH_BAD_CREDENTIALS'
+    } else if (message.status === '404' && message.detail.startsWith('No route found')) {
+      error.statusCode = 500
     }
     return message
   })
