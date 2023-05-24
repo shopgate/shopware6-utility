@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/) and this project adheres
 to [Semantic Versioning](http://semver.org/).
 
+## 1.0.1
+
+- added a silence to an error that happens in a race condition between getRegisterUrl & getCart pipelines
+- added additional error handling
+- changed PWA version 1.6.1 to fix `Cannot read property data of undefined` ambiguous error
+
 ## 1.0.0
 
 - added XDEBUG parameter for PHP debugging

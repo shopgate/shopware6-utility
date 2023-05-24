@@ -115,6 +115,10 @@ const throwOnMessage = function (messages, context) {
       case 'FRAMEWORK__INVALID_UUID':
         context.log.fatal(decorateError(message), 'Unexpected UID provided')
         throw new UnknownError()
+      case 'FRAMEWORK__MISSING_REQUEST_PARAMETER':
+        context.log.error(decorateError(message), 'Silenced error')
+        // it's soft only in one case where it's a registerUrl pipeline, otherwise we need to keep track of this
+        break
       case 'CHECKOUT__CUSTOMER_NOT_LOGGED_IN':
         context.log.debug(decorateError(message), 'Logged in SG, but contextToken is of a guest.')
         // a soft error when trying to log out a customer that is already using a guest token
