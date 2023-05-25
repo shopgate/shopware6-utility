@@ -1,6 +1,6 @@
 {
   "name": "@apite/shopware6-utility",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Shopgate WebCheckout utility for Shopware 6 extensions",
   "license": "Apache-2.0",
   "type": "commonjs",
@@ -20,7 +20,7 @@
     "test:unit": "jest"
   },
   "dependencies": {
-    "@shopware-pwa/shopware-6-client": "^1.5.3",
+    "@shopware-pwa/shopware-6-client": "^1.6.1",
     "nanoid": "2.1.11",
     "lodash.get": "^4.4.2"
   },

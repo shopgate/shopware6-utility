@@ -66,6 +66,8 @@ const throwOnCartErrors = function (errorList, context) {
         case 'purchase-steps-quantity':
           throw (new ProductStockReachedError().mapEntityError(errorList[key], 'ESTOCKREACHED'))
         case 'shipping-method-blocked':
+        case 'shipping-address-blocked':
+        case 'payment-method-blocked':
           // this is not a hard error, products are still added/updated
           break
         default:
@@ -113,6 +115,10 @@ const throwOnMessage = function (messages, context) {
       case 'FRAMEWORK__INVALID_UUID':
         context.log.fatal(decorateError(message), 'Unexpected UID provided')
         throw new UnknownError()
+      case 'FRAMEWORK__MISSING_REQUEST_PARAMETER':
+        context.log.error(decorateError(message), 'Silenced error')
+        // it's soft only in one case where it's a registerUrl pipeline, otherwise we need to keep track of this
+        break
       case 'CHECKOUT__CUSTOMER_NOT_LOGGED_IN':
         context.log.debug(decorateError(message), 'Logged in SG, but contextToken is of a guest.')
         // a soft error when trying to log out a customer that is already using a guest token
@@ -180,6 +186,8 @@ const standardizeErrorMessages = (error) => {
     if (message.code === '0' && message.status === '401') {
       error.statusCode = 400
       message.code = 'CHECKOUT__CUSTOMER_AUTH_BAD_CREDENTIALS'
+    } else if (message.status === '404' && message.detail.startsWith('No route found')) {
+      error.statusCode = 500
     }
     return message
   })
