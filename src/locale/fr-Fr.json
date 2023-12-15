@@ -1,0 +1,42 @@
+{
+  "ApiteSW6Utility": {
+    "general": {
+      "maintenanceModeHeader": "Mode maintenance",
+      "maintenanceModeDescription": "Nous procédons actuellement sur cette page à des mises à jours des contenus. Merci de revenir plus tard."
+    },
+    "cart": {
+      "summaryShipping": "Frais de livraison",
+      "summaryTax": "TVA"
+    },
+    "notice": {
+      "VIOLATION::CUSTOMER_EMAIL_NOT_UNIQUE": "Cette adresse e-mail est déjà enregistrée.",
+      "VIOLATION::CUSTOMER_PASSWORD_NOT_CORRECT": "Ce mot de passe n'est pas valide.",
+      "FRAMEWORK__INVALID_UUID": "Le moyen de paiement sélectionné n'a pas pu être trouvé.",
+      "message-default": "Un problème est malheureusement survenu.",
+      "addToCartError": "Une erreur est survenue lors de l'ajout du produit dans le panier.",
+      "product-not-found": "Le produit n'a pas pu être trouvé.",
+      "message-403": "La session a expiré. Veuillez retourner à la page précédente et recommencer.",
+      "product-out-of-stock": "Le produit \"{name}\" n'est plus disponible",
+      "product-stock-reached": "Le produit \"{name}\" n'est disponible que {quantity} fois",
+      "purchase-steps-quantity": "Le produit \"{name}\" n'est pas disponible dans cette quantité. La quantité a été modifiée à {quantity}",
+      "shipping-method-blocked": "Le mode d'expédition \"{name}\" est bloqué pour votre panier actuel.",
+      "payment-method-blocked": "Le mode de paiement \"{name}\" est bloqué pour votre panier actuel.",
+      "auto-promotion-not-found": "La promotion \"{name}\" n'est plus valide !",
+      "promotion-discount-added": "La réduction \"{name}\" a été ajoutée au panier",
+      "promotion-excluded": "Une ou plusieurs réductions ont été supprimées du panier en raison de conflits avec d'autres réductions. Une fois les conditions remplies à nouveau, les réductions seront appliquées automatiquement.",
+      "promotion-not-eligible": "Le bon d'achat a été enregistré, mais n'a pas été appliqué au panier, car les conditions ne sont pas remplies. Une fois les conditions remplies, le bon d'achat sera automatiquement ajouté.",
+      "promotion-not-found": "Le code promo \"{promotionCode}\" n'existe pas.",
+      "shipping-address-blocked": "Impossible de livrer à l'adresse sélectionnée.",
+      "billing-address-blocked": "La facturation à l'adresse sélectionnée n'est pas possible.",
+      "shipping-address-invalid": "L'adresse de livraison sélectionnée n'est pas valide ou incomplète. Merci de vérifier vos entrées.",
+      "billing-address-invalid": "L'adresse de facturation sélectionnée n'est pas valide ou incomplète. Merci de vérifier vos entrées.",
+      "cart-merged-hint": "Le panier actuel peut contenir des produits supplémentaires qui ont été ajoutés et enregistrés lors d'une visite précédente.",
+      "rateLimitExceeded": "Trop de demandes. Veuillez patienter %seconds% seconde avant de réessayer.",
+      "loginBadCredentials": "Aucun compte ne correspond aux identifiants saisis.",
+      "inactiveAccountAlert": "Votre compte client n'a pas encore été activé. Nous avons envoyé un e-mail de confirmation contenant un lien d'activation. Veuillez vérifier votre boîte de réception et cliquez sur le lien pour terminer votre inscription !"
+    },
+    "app": {
+      "not-in-sync": "Malheureusement, la session a expiré, vous devez vous reconnecter."
+    }
+  }
+}
