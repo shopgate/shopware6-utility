@@ -1,0 +1,42 @@
+{
+  "ApiteSW6Utility": {
+    "general": {
+      "maintenanceModeHeader": "Modo de mantenimiento",
+      "maintenanceModeDescription": "En estos momentos estamos actualizando los contenidos de esta página. Por favor, vuelva a visitarnos en otro momento."
+    },
+    "cart": {
+      "summaryShipping": "Gastos de envío",
+      "summaryTax": "IVA"
+    },
+    "notice": {
+      "VIOLATION::CUSTOMER_EMAIL_NOT_UNIQUE": "Esta dirección de correo electrónico ya está registrada.",
+      "VIOLATION::CUSTOMER_PASSWORD_NOT_CORRECT": "La contraseña no es correcta.",
+      "FRAMEWORK__INVALID_UUID": "No se encuentra la modalidad de pago elegida.",
+      "message-default": "Desgraciadamente, se ha producido un error.",
+      "addToCartError": "Se ha producido un error al añadirlo a la cesta de la compra.",
+      "product-not-found": "No se pudo encontrar el producto.",
+      "message-403": "La sesión ha caducado. Vuelva a la última página e inténtelo de nuevo.",
+      "product-out-of-stock": "El producto \"{name}\" ya no está disponible",
+      "product-stock-reached": "El producto \"{name}\" sólo está disponible {quantity} veces",
+      "purchase-steps-quantity": "El producto \"{name}\" no está disponible en esta cantidad. La cantidad se cambió a {quantity}",
+      "shipping-method-blocked": "El método de envío \"{name}\" está bloqueado para el carrito de la compra actual.",
+      "payment-method-blocked": "El método de pago \"{name}\" está bloqueado para su carrito de compras actual.",
+      "auto-promotion-not-found": "¡La promoción \"{name}\" ya no es válida!",
+      "promotion-discount-added": "El descuento «{name}» ha sido añadido a la cesta",
+      "promotion-excluded": "Se han eliminado uno o más descuentos del carrito de compras debido a conflictos con otros descuentos. Una vez que se cumplan de nuevo las condiciones, los descuentos se aplicarán automáticamente.",
+      "promotion-not-eligible": "El código de vale ha sido guardado, pero no se ha aplicado en la cesta porque no se cumplen los requisitos necesarios. En cuanto se cumplan los requisitos necesarios, será añadido automáticamente.",
+      "promotion-not-found": "El código de vale «{promotionCode}» no existe.",
+      "shipping-address-blocked": "Las entregas a la dirección de entrega no son posibles.",
+      "billing-address-blocked": "No es posible facturar a la dirección seleccionada.",
+      "shipping-address-invalid": "La dirección de envío seleccionada no es válida o está incompleta. Por favor, comprueba tus entradas.",
+      "billing-address-invalid": "La dirección de facturación seleccionada no es válida o está incompleta. Por favor, comprueba tus entradas.",
+      "cart-merged-hint": "El carrito de la compra actual puede contener productos adicionales que se han añadido y guardado durante una visita anterior.",
+      "rateLimitExceeded": "Demasiadas solicitudes. Espere %seconds% segundos antes de volver a intentarlo.",
+      "loginBadCredentials": "No se encuentra ninguna cuenta con los datos de acceso indicados.",
+      "inactiveAccountAlert": "Tu cuenta de cliente aún no se ha activado. Hemos enviado un correo electrónico de confirmación con un enlace de activación. Por favor, compruebe su bandeja de entrada y haga clic en el enlace para completar el registro!"
+    },
+    "app": {
+      "not-in-sync": "Lamentablemente la sesión ha expirado, tendrás que volver a conectarte."
+    }
+  }
+}

@@ -18,7 +18,7 @@ npm install --save ../../shopware6-utility
 sgconnect extension create
 # follow prompt to make a simple backend extension
 cd ../../extensions/some-created-module/extension
-ln -fs ../../../shopware6-utility/src/services/apiManager.js
+ln -fs ../../shopware6-utility/src/services/apiManager.js
 ```
 
 Make sure the extension is attached. Once that is done the apiManager file will be in the watch list 
