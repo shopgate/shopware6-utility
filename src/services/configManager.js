@@ -1,6 +1,6 @@
 'use strict'
 
-const { decorateMessage } = require('./logDecorator')
+const { decorateMessage } = require('./logDecorator')()
 const { UnknownError } = require('./errorList')
 
 /**
