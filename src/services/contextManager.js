@@ -1,6 +1,7 @@
 'use strict'
 
-const { decorateError, decorateMessage } = require('./logDecorator')
+const { decorateError, decorateMessage } = require('./logDecorator')()
+
 /**
  * Select storage to use: device or user (if logged in)
  *
