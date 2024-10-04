@@ -1,49 +1,152 @@
 'use strict'
 
-const { createInstance } = require('@shopware-pwa/shopware-6-client')
-const { getContextToken, saveContextToken } = require('./contextManager')
-const { getEndpoint, getAccessToken, getLanguageId } = require('./configManager')
+const {
+  getCheckoutCartEndpoint,
+  getCheckoutCartLineItemEndpoint,
+  getProductEndpoint,
+  getRemoveCartLineItemEndpoint,
+  getContextEndpoint,
+  getCustomerLoginEndpoint,
+  getCustomerLogoutEndpoint,
+  getGetWishlistProductsEndpoint,
+  getAddWishlistProductEndpoint,
+  getRemoveWishlistProductEndpoint
+} = require('../lib/endpoints')
 
 /**
- * @param {ApiteSW6Utility.PipelineContext} context
- * @param {ApiteSW6Utility.SWClientSettings|{}} config
- * @param {boolean} saveToken - whether to save the token to storage after a successful API call
- * @returns {ApiteSW6Utility.SWApiInstance}
+ * @param {AxiosInstance} axios
+ * @returns {Promise<Cart>}
+ *
+ * @throws ClientApiError
+ * @public
  */
-const createApiConfig = async (context, config = {}, saveToken = true) => {
-  const endpoint = getEndpoint(context)
-  const accessToken = getAccessToken(context)
-  const languageId = getLanguageId(context)
-  const contextToken = await getContextToken(context)
+const getCart = async axios => axios.get(getCheckoutCartEndpoint())
 
-  /** @var {ApiteSW6Utility.SWClientSettings} newConfig */
-  const newConfig = Object.assign({
-    endpoint,
-    accessToken,
-    languageId,
-    contextToken
-  }, config)
+/**
+ * @param {AxiosInstance} axios
+ * @returns {Promise<{ success: boolean }>}
+ *
+ * @throws ClientApiError
+ * @public
+ */
+const deleteCart = async axios => axios.delete(getCheckoutCartEndpoint())
 
-  const instance = createInstance(newConfig)
-  // when this check is present, our plugin extends the current expired customer/guest session
-  instance.defaults.headers.common['shopgate-check'] = 'true'
-  if (process.env.XDEBUG) {
-    instance.defaults.headers.common.Cookie = 'XDEBUG_SESSION=XDEBUG_ECLIPSE;'
-    instance.defaults.withCredentials = true
-  }
+/**
+ * Adds multiple items to the cart.
+ * Accepts every type of cart item.
+ *
+ * @param {AxiosInstance} axios
+ * @param {Partial<LineItem>[]} items
+ * @returns {Promise<Cart>}
+ *
+ * @throws ClientApiError
+ * @public
+ */
+const addCartItems = async (axios, items) => axios.post(getCheckoutCartLineItemEndpoint(), { items })
 
-  // if current user's token changes it will be saved to SG storage
-  instance.onConfigChange(
-    async ({ config }) => {
-      if (contextToken !== config.contextToken && saveToken) {
-        const whom = context.meta.userId ? 'user' : 'guest'
-        context.log.debug(`Changed for ${whom} FROM: '${contextToken}' TO: '${config.contextToken}'`)
-        await saveContextToken(config.contextToken, context)
-      }
-    }
-  )
+/**
+ * @param {AxiosInstance} axios
+ * @param {string[]} ids
+ * @returns {Promise<Cart>}
+ *
+ * @throws ClientApiError
+ * @public
+ */
+const removeCartItems = async (axios, ids) => axios.post(getRemoveCartLineItemEndpoint(), { ids })
 
-  return instance
+/**
+ * @param {AxiosInstance} axios
+ * @param {Partial<LineItem>[]} items
+ * @returns {Promise<Cart>}
+ *
+ * @throws ClientApiError
+ * @public
+ */
+const changeCartItemQuantity = async (axios, items) => axios.patch(getCheckoutCartLineItemEndpoint(), { items })
+
+/**
+ * @param {AxiosInstance} axios
+ * @param {?ShopwareSearchParams} criteria
+ * @returns {Promise<EntityResult<'product', Product[]>>}
+ *
+ * @throws ClientApiError
+ * @public
+ */
+const getProducts = async (axios, criteria = {}) => axios.post(getProductEndpoint(), criteria)
+
+/**
+ * Loads session context, containing all session-related data.
+ * @param {AxiosInstance} axios
+ * @returns {Promise<SessionContext>}
+ *
+ * @throws ClientApiErrosr
+ * @public
+ */
+const getSessionContext = async axios => axios.get(getContextEndpoint())
+
+/**
+ * @param {AxiosInstance} axios
+ * @param {{ username?: string; password?: string }} params
+ * @returns {Promise<ContextTokenResponse>}
+ *
+ * @throws ClientApiError
+ * @public
+ */
+const login = async (axios, params) => axios.post(getCustomerLoginEndpoint(), params)
+
+/**
+ * @param {AxiosInstance} axios
+ * @returns {Promise<void>}
+ *
+ * @throws ClientApiError
+ * @public
+ */
+const logout = async axios => axios.post(getCustomerLogoutEndpoint())
+
+/**
+ * @param {AxiosInstance} axios
+ * @param {?ShopwareSearchParams} criteria
+ * @return {Promise<CustomerWishlistResponse>}
+ *
+ * @remarks Only for logged-in users
+ * @throws ClientApiError
+ * @public
+ */
+const getWishlistProducts = async (axios, criteria = {}) => axios.post(getGetWishlistProductsEndpoint(), criteria)
+
+/**
+ * @param {AxiosInstance} axios
+ * @param {string} productId
+ * @return {Promise<{ apiAlias: string; success: boolean; }>}
+ *
+ * @remarks Only for logged-in users
+ * @throws ClientApiError
+ * @public
+ */
+const addWishlistProduct = async (axios, productId) => axios.post(getAddWishlistProductEndpoint(productId))
+
+/**
+ * @param {AxiosInstance} axios
+ * @param {string} productId
+ * @return {Promise<{ apiAlias: string; success: boolean; }>}
+ *
+ * @remarks Only for logged-in users
+ * @throws ClientApiError
+ * @public
+ */
+const removeWishlistProduct = async (axios, productId) => axios.delete(getRemoveWishlistProductEndpoint(productId))
+
+module.exports = {
+  addCartItems,
+  addWishlistProduct,
+  changeCartItemQuantity,
+  deleteCart,
+  getCart,
+  getProducts,
+  getSessionContext,
+  getWishlistProducts,
+  login,
+  logout,
+  removeCartItems,
+  removeWishlistProduct
 }
-
-module.exports = { createApiConfig }

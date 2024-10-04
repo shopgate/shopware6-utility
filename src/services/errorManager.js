@@ -13,7 +13,7 @@ const {
   ThrottledError,
   UnknownError
 } = require('./errorList')
-const { decorateError } = require('./logDecorator')()
+const { decorateError, formatAxiosResponse } = require('./logDecorator')()
 
 /**
  * @param {ApiteSW6Utility.SWErrorLevel} shopwareType
@@ -31,7 +31,7 @@ const toShopgateType = shopwareType => {
 }
 
 /**
- * @param {ApiteSW6Utility.SWEntityError} error
+ * @param {EntityError} error
  * @return {ApiteSW6Cart.SGCartMessage}
  */
 const toShopgateMessage = (error) => ({
@@ -45,7 +45,7 @@ const toShopgateMessage = (error) => ({
 /**
  * Note that this only throws if errors are present
  *
- * @param {ApiteSW6Utility.SWCartErrors} errorList
+ * @param {CartErrors} errorList
  * @param {ApiteSW6Utility.PipelineContext} context
  * @throws {Error}
  */
@@ -81,7 +81,7 @@ const throwOnCartErrors = function (errorList, context) {
  * Sometimes we want to throw even on information messages
  * to show customer information via Error modal
  *
- * @param {ApiteSW6Utility.SWCartErrors} errorList
+ * @param {CartErrors} errorList - todo: document
  * @param {ApiteSW6Utility.PipelineContext} context
  * @throws {Error}
  */
@@ -102,7 +102,7 @@ const throwOnCartInfoErrors = function (errorList, context) {
 }
 
 /**
- * @param {ApiteSW6Utility.SWError[]} messages
+ * @param {ShopwareError[]} messages
  * @param {ApiteSW6Utility.PipelineContext} context
  * @throws {Error}
  */
@@ -140,7 +140,7 @@ const throwOnMessage = function (messages, context) {
 }
 
 /**
- * @param {ApiteSW6Utility.SWClientApiError|Error} error
+ * @param {ClientApiError|Error} error
  * @param {ApiteSW6Utility.PipelineContext} context
  * @see https://shopware.stoplight.io/docs/store-api/ZG9jOjExMTYzMDU0-error-handling
  * @throws {Error}
@@ -179,7 +179,7 @@ const throwOnApiError = function (error, context) {
 /**
  * Helps fix inconsistent SW API returned messages
  *
- * @param {ApiteSW6Utility.SWClientApiError} error
+ * @param {ClientApiError} error
  */
 const standardizeErrorMessages = (error) => {
   error.messages.forEach(message => {
@@ -193,7 +193,106 @@ const standardizeErrorMessages = (error) => {
   })
 }
 
+/**
+ * Handle all HTTP status codes from 4xx group as an API errors, including 500 (exception for order placement issue)
+ * 408 timeout error is handled separately
+ * @param {number} statusCode
+ * @returns {boolean}
+ */
+const isApiError = statusCode => {
+  return (statusCode !== 408 && statusCode.toString().startsWith('4')) ||
+    statusCode === 500
+}
+
+/**
+ * @param {ShopwareApiError} error
+ * @return {number}
+ */
+const extractApiErrorStatusCode = error => {
+  return (
+    _get(error, 'response.status') || guessTheStatusCodeFromTheMessage(error.message)
+  )
+}
+
+/**
+ * Sometimes the HTTP status code is not available and must be guessed from the message.
+ * In cases like connection problems, or timeout error comes from intermediate layer (i.e. client)
+ * @param {string} message
+ * @return {number}
+ */
+const guessTheStatusCodeFromTheMessage = message => {
+  // catch the specific timeout rejection from axios
+  if (typeof message === 'string' && message.startsWith('timeout of')) {
+    return 408
+  }
+
+  // offline mode exception
+  if (typeof message === 'string' && message.startsWith('Network Error')) {
+    return 0
+  }
+
+  return 500
+}
+
+/**
+ * Extract error message
+ * Keep the original errors[] format if 400 Bad Request for validation purposes.
+ * 400 responses always points to the specific field/param/option, thus should be kept entirely.
+ *
+ * @param {ShopwareApiError} error
+ * @returns {(string|ShopwareError[])} single message if statusCode !== 400, array of native errors otherwise
+ */
+const extractApiErrorMessage = error => {
+  return _get(error, 'response.data.errors') || []
+}
+
+/**
+ * Extract message from AxiosError which comes from somewhere else.
+ * @param {AxiosError} error
+ * @returns {ShopwareError[]}
+ */
+const extractNotApiErrorMessage = error =>
+  [
+    {
+      detail: error.message,
+      status: '',
+      code: '',
+      title: '',
+      meta: {},
+      source: {}
+    }
+  ]
+
+/**
+ * Extracts and create the consistent error object
+ * Error message depends on:
+ * 1. type of error (API or other network layer)
+ * 2. status code
+ *
+ * @param {ShopwareApiError} error
+ * @param {ApiteSW6Utility.PipelineContext} context
+ * @returns {Promise<ClientApiError>}
+ */
+const errorInterceptor = async (error, context) => {
+  // Any status codes that falls outside the range of 2xx cause this function to trigger
+  // Do something with response error
+  const statusCode = extractApiErrorStatusCode(error)
+  const clientApiError = {
+    messages: isApiError(statusCode)
+      ? extractApiErrorMessage(error)
+      : extractNotApiErrorMessage(error),
+    statusCode: statusCode
+  }
+  if (error.response) {
+    context.log.debug(formatAxiosResponse(error.response), 'rest-error-catch-all')
+  } else {
+    context.log.error({ message: error.message }, 'rest-non-api-error')
+  }
+  return Promise.reject(clientApiError)
+}
+
 module.exports = {
+  errorInterceptor,
   throwOnApiError,
   throwOnCartErrors,
   throwOnCartInfoErrors,

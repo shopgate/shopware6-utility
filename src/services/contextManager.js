@@ -29,6 +29,10 @@ const saveContextToken = async (contextToken, context) =>
     context.log.error(decorateError(err), 'Failed to save context token.')
   )
 
+const removeContextToken = async context => _getStorage(context)
+  .del('contextToken')
+  .catch(err => context.log.error(err), 'Failed to delete context token.')
+
 /**
  * @param {string} couponCode
  * @param {ApiteSW6Utility.PipelineContext} context
@@ -63,6 +67,7 @@ module.exports = {
   getCouponCode,
   getContextToken,
   removeCouponCode,
+  removeContextToken,
   saveContextToken,
   saveCouponCode
 }
