@@ -4,7 +4,11 @@ const axios = require('axios')
 const { getContextToken, saveContextToken } = require('./contextManager')
 const { getEndpoint, getAccessToken, getLanguageId } = require('./configManager')
 const { errorInterceptor } = require('./errorManager')
-const { decorateMessage } = require('../services/logDecorator')()
+const {
+  formatAxiosRequest,
+  decorateMessage,
+  obfuscateString
+} = require('../services/logDecorator')()
 
 /**
  * @param {ApiteSW6Utility.PipelineContext} context
@@ -32,15 +36,29 @@ const createApiConfig = async (context, saveToken = true) => {
     axiosClient.defaults.withCredentials = true
   }
 
+  axiosClient.interceptors.request.use(async config => {
+    const customerType = context.meta.userId ? 'user' : 'guest'
+    context.log.debug({ ...formatAxiosRequest(config), customerType }, 'request-catch-all')
+    return config
+  })
+
   axiosClient.interceptors.response.use(async resp => {
-    // if current user's token changes it will be saved to SG storage
-    // todo: save context token if it changed, retrieve from Header, with fallback
     const respToken = extractContextToken(resp)
+
+    // special case for login call where we want to return the context token
+    if (resp.config.url.includes('/login')) {
+      return respToken
+    }
+
     if (contextToken !== respToken && saveToken) {
       const whom = context.meta.userId ? 'user' : 'guest'
-      context.log.debug(decorateMessage(`Changed for ${whom} FROM: '${contextToken}' TO: '${respToken}'`))
+      context.log.debug(
+        decorateMessage(`Changed token for ${whom} ` +
+        `FROM: "${obfuscateString(contextToken)}" ` +
+        `TO: "${obfuscateString(respToken)}"`))
       await saveContextToken(respToken, context)
     }
+
     return resp.data
   }, async err => errorInterceptor(err, context))
 

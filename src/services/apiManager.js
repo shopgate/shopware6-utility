@@ -85,9 +85,11 @@ const getProducts = async (axios, criteria = {}) => axios.post(getProductEndpoin
 const getSessionContext = async axios => axios.get(getContextEndpoint())
 
 /**
+ * The response is overwritten by the interceptor
+ *
  * @param {AxiosInstance} axios
  * @param {{ username?: string; password?: string }} params
- * @returns {Promise<ContextTokenResponse>}
+ * @returns {Promise<string>}
  *
  * @throws ClientApiError
  * @public
@@ -112,7 +114,7 @@ const logout = async axios => axios.post(getCustomerLogoutEndpoint())
  * @throws ClientApiError
  * @public
  */
-const getWishlistProducts = async (axios, criteria = {}) => axios.post(getGetWishlistProductsEndpoint(), criteria)
+const getWishlistProducts = async (axios, criteria = undefined) => axios.post(getGetWishlistProductsEndpoint(), criteria)
 
 /**
  * @param {AxiosInstance} axios

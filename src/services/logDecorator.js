@@ -7,39 +7,8 @@ const get = require('lodash.get')
  */
 const logDecorator = (extensionName = '@apite-shopware6-helper') => {
   /**
-   * @param {ClientApiError|EntityError|ApiteSW6Utility.ShopwareError|Error} error
-   * @return {EntityError[]|ApiteSW6Utility.ShopwareError[]|string[]}
-   */
-  // const extractErrorMessages = (error) => {
-  //   if (error.statusCode) {
-  //     // SWClientApiError
-  //     return error.messages
-  //   } else if (error.messageKey || error.status) {
-  //     // SWEntityError | SWError
-  //     return [error]
-  //   }
-  //   // Error
-  //   return [error.message]
-  // }
-  //
-  // /**
-  //  * @param {ClientApiError|ApiteSW6Utility.SWEntityError|ApiteSW6Utility.SWError|Error} error
-  //  * @return {string|number}
-  //  */
-  // const extractErrorCode = (error) => {
-  //   if (error.statusCode) {
-  //     return error.statusCode
-  //   } else if (error.messageKey) {
-  //     return error.code
-  //   } else if (error.status) {
-  //     return Number(error.status)
-  //   }
-  //   return 500
-  // }
-
-  /**
-   * @param {AxiosResponse|Error} response
-   * @return {{extension: string}|FormattedAxiosResponse}
+   * @param {AxiosResponse|ClientApiError|ShopwareError|EntityError|Error} response
+   * @return {SGConnectAPI.BasicErrorLog|SGConnectAPI.ClientApiErrorLog|FormattedAxiosResponse}
    */
   const decorateError = response => {
     if (response.statusText) {
@@ -47,18 +16,30 @@ const logDecorator = (extensionName = '@apite-shopware6-helper') => {
         extension: extensionName,
         ...formatAxiosResponse(response)
       }
+    } else if (response.statusCode || response.statusCode === 0) {
+      return {
+        extension: extensionName,
+        errors: response.messages.map(err => ({
+          ...err,
+          meta: JSON.stringify(err.meta),
+          trace: JSON.stringify(get(err, 'trace[0]') || {})
+        }))
+      }
     }
 
-    return decorateMessage(response.message)
+    return {
+      ...decorateMessage(response.message),
+      ...response.stack ? { stack: _cleanMessage(response.stack) } : {}
+    }
   }
 
   /**
-   * @param {string} message
-   * @return {{extension: string, messages: string[]}}
+   * @param {?string} message
+   * @return {SGConnectAPI.BasicErrorLog}
    */
   const decorateMessage = message => ({
     extension: extensionName,
-    message
+    message: _cleanMessage(message)
   })
 
   /**
@@ -71,7 +52,7 @@ const logDecorator = (extensionName = '@apite-shopware6-helper') => {
       status: String(err.status),
       statusText: err.statusText,
       message: get(err, 'data.message') || '',
-      errors: (get(err, 'data.errors') || []).map(item => _cleanMessage(item.detail))
+      errors: Object.entries(get(err, 'data.errors') || {}).map(([, item]) => item.message)
     }
   )
 
@@ -83,8 +64,8 @@ const logDecorator = (extensionName = '@apite-shopware6-helper') => {
     return {
       call: request.method.toUpperCase() + ' ' + request.baseURL + request.url,
       headers: {
-        ...request.headers['sw-context-token'] ? { 'sw-context-token': '***' + request.headers['sw-context-token'].slice(-5) } : {},
-        ...request.headers['sw-access-key'] ? { 'sw-access-key': '***' + request.headers['sw-access-key'].slice(-5) } : {},
+        ...request.headers['sw-context-token'] ? { 'sw-context-token': obfuscateString(request.headers['sw-context-token']) } : {},
+        ...request.headers['sw-access-key'] ? { 'sw-access-key': obfuscateString(request.headers['sw-access-key']) } : {},
         'sw-language-id': request.headers['sw-language-id']
       },
       params: request.params
@@ -92,26 +73,29 @@ const logDecorator = (extensionName = '@apite-shopware6-helper') => {
   }
 
   /**
-   * @param {string} message
-   * @return {string}
+   * @param {?string} message
+   * @return {?string}
    * @private
    */
   const _cleanMessage = (message) => {
+    if (!message) {
+      return undefined
+    }
     // Remove newline characters
     let parsedQuery = message.replace(/\\n/g, '')
     // Remove extra spaces
     parsedQuery = parsedQuery.replace(/\s+/g, ' ').trim()
 
-    // obfuscate sensitive data
-    const sensitiveData = ['password']
-    sensitiveData.forEach(key => {
-      parsedQuery = parsedQuery.replace(new RegExp(`"${key}":\\s*"[^"]+"`, 'g'), `"${key}": "***"`)
-    })
-
     return parsedQuery !== '' ? parsedQuery : undefined
   }
 
-  return { decorateError, decorateMessage, formatAxiosResponse, formatAxiosRequest }
+  /**
+   * @param {?string} message
+   * @return {string}
+   */
+  const obfuscateString = message => message ? '***' + message.slice(-7) : message
+
+  return { decorateError, decorateMessage, formatAxiosResponse, formatAxiosRequest, obfuscateString }
 }
 
 module.exports = logDecorator

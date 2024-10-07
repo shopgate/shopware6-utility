@@ -31,7 +31,7 @@ const saveContextToken = async (contextToken, context) =>
 
 const removeContextToken = async context => _getStorage(context)
   .del('contextToken')
-  .catch(err => context.log.error(err), 'Failed to delete context token.')
+  .catch(err => context.log.error(decorateError(err), 'Failed to delete context token.'))
 
 /**
  * @param {string} couponCode

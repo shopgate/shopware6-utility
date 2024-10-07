@@ -13,6 +13,9 @@ export interface SessionContext {
   token: string;
   currentCustomerGroup: {
     id: string;
+    translated: {
+      name: string;
+    }
     name: string;
   };
   fallbackCustomerGroup: {

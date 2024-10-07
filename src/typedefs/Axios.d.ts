@@ -77,3 +77,16 @@ export interface AxiosInstance {
   put<T = any, R = AxiosResponse<T>>(url: string, data?: any, config?: AxiosRequestConfig): Promise<R>;
   patch<T = any, R = AxiosResponse<T>>(url: string, data?: any, config?: AxiosRequestConfig): Promise<R>;
 }
+
+declare interface FormattedAxiosRequest {
+  call: string
+  headers?: { [key: string]: string|number }
+  params: { [key: string]: string }
+}
+
+declare interface FormattedAxiosResponse extends FormattedAxiosRequest {
+  status: string
+  statusText: string
+  message: string
+  errors: string[]
+}

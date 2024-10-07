@@ -30,14 +30,14 @@ export interface Customer {
   title: string | null;
   active: boolean;
   guest: boolean;
-  firstLogin: Date | null;
-  lastLogin: Date | null;
+  firstLogin: string | null;
+  lastLogin: string | null;
   newsletter: boolean;
-  birthday: Date;
-  lastOrderDate: Date;
+  birthday: string; // e.g 2024-10-06T20:01:51.486+00:00
+  lastOrderDate: string;
   orderCount: number;
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt: string;
+  updatedAt: string;
   group: CustomerGroup;
   defaultPaymentMethod: PaymentMethod;
   defaultBillingAddress: BillingAddress;

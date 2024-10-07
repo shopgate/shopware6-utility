@@ -16,7 +16,7 @@ const {
 const { decorateError, formatAxiosResponse } = require('./logDecorator')()
 
 /**
- * @param {ApiteSW6Utility.SWErrorLevel} shopwareType
+ * @param {ErrorLevel} shopwareType
  */
 const toShopgateType = shopwareType => {
   switch (shopwareType) {
@@ -204,6 +204,21 @@ const isApiError = statusCode => {
     statusCode === 500
 }
 
+// /**
+//  * @param {ClientApiError|EntityError|ShopwareError|Error} error
+//  * @return {string|number}
+//  */
+// const extractErrorCode = (error) => {
+//   if (error.statusCode) {
+//     return error.statusCode
+//   } else if (error.messageKey) {
+//     return error.code
+//   } else if (error.status) {
+//     return Number(error.status)
+//   }
+//   return 500
+// }
+
 /**
  * @param {ShopwareApiError} error
  * @return {number}
@@ -231,6 +246,11 @@ const guessTheStatusCodeFromTheMessage = message => {
     return 0
   }
 
+  // connection refused error
+  if (typeof message === 'string' && message.startsWith('connect')) {
+    return 0
+  }
+
   return 500
 }
 
@@ -251,7 +271,7 @@ const extractApiErrorMessage = error => {
  * @param {AxiosError} error
  * @returns {ShopwareError[]}
  */
-const extractNotApiErrorMessage = error =>
+const extractNonApiErrorMessage = error =>
   [
     {
       detail: error.message,
@@ -280,7 +300,7 @@ const errorInterceptor = async (error, context) => {
   const clientApiError = {
     messages: isApiError(statusCode)
       ? extractApiErrorMessage(error)
-      : extractNotApiErrorMessage(error),
+      : extractNonApiErrorMessage(error),
     statusCode: statusCode
   }
   if (error.response) {
@@ -296,6 +316,7 @@ module.exports = {
   throwOnApiError,
   throwOnCartErrors,
   throwOnCartInfoErrors,
+  throwOnMessage,
   toShopgateType,
   toShopgateMessage
 }
