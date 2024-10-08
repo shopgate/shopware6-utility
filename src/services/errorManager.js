@@ -81,7 +81,7 @@ const throwOnCartErrors = function (errorList, context) {
  * Sometimes we want to throw even on information messages
  * to show customer information via Error modal
  *
- * @param {CartErrors} errorList - todo: document
+ * @param {CartErrors} errorList
  * @param {ApiteSW6Utility.PipelineContext} context
  * @throws {Error}
  */
@@ -203,21 +203,6 @@ const isApiError = statusCode => {
   return (statusCode !== 408 && statusCode.toString().startsWith('4')) ||
     statusCode === 500
 }
-
-// /**
-//  * @param {ClientApiError|EntityError|ShopwareError|Error} error
-//  * @return {string|number}
-//  */
-// const extractErrorCode = (error) => {
-//   if (error.statusCode) {
-//     return error.statusCode
-//   } else if (error.messageKey) {
-//     return error.code
-//   } else if (error.status) {
-//     return Number(error.status)
-//   }
-//   return 500
-// }
 
 /**
  * @param {ShopwareApiError} error
