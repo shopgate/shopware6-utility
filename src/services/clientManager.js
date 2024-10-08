@@ -46,7 +46,7 @@ const createApiConfig = async (context, saveToken = true) => {
     const respToken = extractContextToken(resp)
 
     // special case for login call where we want to return the context token
-    if (resp.config.url.includes('/login')) {
+    if (resp.config.url.includes('/account/login')) {
       return respToken
     }
 
