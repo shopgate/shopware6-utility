@@ -5,6 +5,7 @@ const {
   AutoPromoNotEligibleError,
   InvalidCredentialsError,
   InactiveAccountError,
+  PurchaseStepsError,
   ProductNotFoundError,
   ProductStockReachedError,
   PromoAddedError,
@@ -63,8 +64,11 @@ const throwOnCartErrors = function (errorList, context) {
         case 'auto-promotion-not-found':
           throw (new AutoPromoNotEligibleError().mapEntityError(errorList[key], 'ENOTELIGIBLE'))
         case 'product-stock-reached':
-        case 'purchase-steps-quantity':
+        case 'product-out-of-stock':
           throw (new ProductStockReachedError().mapEntityError(errorList[key], 'ESTOCKREACHED'))
+        case 'purchase-steps-quantity':
+        case 'min-order-quantity':
+          throw (new PurchaseStepsError().mapEntityError(errorList[key], 'EPURCHASESTEPS'))
         case 'shipping-method-blocked':
         case 'shipping-address-blocked':
         case 'payment-method-blocked':

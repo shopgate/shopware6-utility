@@ -7,6 +7,9 @@ to [Semantic Versioning](http://semver.org/).
 
 ## 2.0.0
 
+- added `product-out-of-stock` error mapping for a nicer popup
+- added `min-order-quantity` error mapping for a nicer popup
+- changed `purchase-steps-quantity` error wording
 - changed `@shopware-pwa/shopware-6-client` usage to pure Axios
 
 ## 1.1.2

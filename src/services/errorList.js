@@ -36,6 +36,8 @@ class ProductNotFoundError extends CartError {
 
 class ProductStockReachedError extends CartError {}
 
+class PurchaseStepsError extends CartError {}
+
 class PromoAddedError extends CartError {}
 
 class PromoNotFoundError extends CartError {}
@@ -91,6 +93,7 @@ module.exports = {
   ContextDeSyncError,
   InactiveAccountError,
   InvalidCredentialsError,
+  PurchaseStepsError,
   PromoAddedError,
   PromoNotEligibleError,
   PromoNotFoundError,

@@ -25,6 +25,11 @@ const logDecorator = (extensionName = '@apite-shopware6-helper') => {
           trace: JSON.stringify(get(err, 'trace[0]') || {})
         }))
       }
+    } else if (response.messageKey) {
+      return {
+        ...decorateMessage(response.message),
+        messageKey: response.messageKey
+      }
     }
 
     return {
