@@ -71,7 +71,7 @@ const throwOnCartErrors = function (errorList, context) {
           // this is not a hard error, products are still added/updated
           break
         default:
-          context.log.error(decorateError(errorList[key]), 'Cannot map error')
+          context.log.error(decorateError(errorList[key]), 'rest-unmapped-error')
           throw new UnknownError()
       }
     })
@@ -289,7 +289,7 @@ const errorInterceptor = async (error, context) => {
     statusCode: statusCode
   }
   if (error.response) {
-    context.log.debug(formatAxiosResponse(error.response), 'rest-error-catch-all')
+    context.log.error(formatAxiosResponse(error.response), 'rest-error-catch-all')
   } else {
     context.log.error({ message: error.message }, 'rest-non-api-error')
   }
