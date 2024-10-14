@@ -1,4 +1,5 @@
 const apiManager = require('./src/services/apiManager')
+const clientManger = require('./src/services/clientManager')
 const configManager = require('./src/services/configManager')
 const connectApiManager = require('./src/services/connectApiManager')
 const contextManager = require('./src/services/contextManager')
@@ -8,6 +9,7 @@ const logDecorator = require('./src/services/logDecorator')
 
 const toExport = {
   apiManager,
+  clientManger,
   configManager,
   connectApiManager,
   contextManager,

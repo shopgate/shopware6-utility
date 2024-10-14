@@ -12,7 +12,7 @@ class CartError extends Error {
   }
 
   /**
-   * @param {ApiteSW6Utility.SWEntityError} error
+   * @param {EntityError} error
    * @param {string} code - Shopgate Error code, e.g. EUNKNOWN
    * @return {CartError}
    */
@@ -35,6 +35,8 @@ class ProductNotFoundError extends CartError {
 }
 
 class ProductStockReachedError extends CartError {}
+
+class PurchaseStepsError extends CartError {}
 
 class PromoAddedError extends CartError {}
 
@@ -91,6 +93,7 @@ module.exports = {
   ContextDeSyncError,
   InactiveAccountError,
   InvalidCredentialsError,
+  PurchaseStepsError,
   PromoAddedError,
   PromoNotEligibleError,
   PromoNotFoundError,

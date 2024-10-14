@@ -22,8 +22,9 @@ const validate = (property, context) => {
  */
 const getEndpoint = context => {
   const endpoint = process.env.SW_ENDPOINT || context.config.endpoint
+  validate(endpoint, context)
 
-  return validate(endpoint, context) || endpoint
+  return endpoint.endsWith('/') ? endpoint.slice(0, -1) : endpoint
 }
 
 /**
