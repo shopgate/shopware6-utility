@@ -9,6 +9,7 @@ to [Semantic Versioning](http://semver.org/).
 
 - added `product-out-of-stock` error mapping for a nicer popup
 - added `min-order-quantity` error mapping for a nicer popup
+- added support for error props that are passed as of 6.6.7.0
 - changed `purchase-steps-quantity` error wording
 - changed `@shopware-pwa/shopware-6-client` usage to pure Axios
 

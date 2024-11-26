@@ -21,7 +21,10 @@ class CartError extends Error {
       entityId: error.id,
       code,
       message: 'ApiteSW6Utility.notice.' + error.messageKey,
-      messageParams: { ...error },
+      messageParams: {
+        ...error,
+        ...error.parameters || {}
+      },
       translated: false
     }]
     return this
