@@ -4,6 +4,7 @@ const {
   getCheckoutCartEndpoint,
   getCheckoutCartLineItemEndpoint,
   getProductEndpoint,
+  getProductListingEndpoint,
   getRemoveCartLineItemEndpoint,
   getContextEndpoint,
   getCustomerLoginEndpoint,
@@ -73,6 +74,17 @@ const changeCartItemQuantity = async (axios, items) => axios.patch(getCheckoutCa
  * @public
  */
 const getProducts = async (axios, criteria = {}) => axios.post(getProductEndpoint(), criteria)
+
+/**
+ * @param {AxiosInstance} axios
+ * @param {string} categoryId
+ * @param {?ShopwareSearchParams} criteria
+ * @returns {Promise<ProductListingResult>}
+ *
+ * @throws ClientApiError
+ * @public
+ */
+const getProductListing = async (axios, categoryId, criteria = {}) => axios.post(getProductListingEndpoint(categoryId), criteria)
 
 /**
  * Loads session context, containing all session-related data.
@@ -145,6 +157,7 @@ module.exports = {
   deleteCart,
   getCart,
   getProducts,
+  getProductListing,
   getSessionContext,
   getWishlistProducts,
   login,

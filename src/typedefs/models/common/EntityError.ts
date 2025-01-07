@@ -18,6 +18,9 @@ export interface EntityError {
   code: number;
   key: string;
   level: ErrorLevel | number;
+  parameters: [key: string]; // starting 6.6.7.0
+  block: boolean; // starting 6.6.7.0
+  blockResubmit: boolean; // starting 6.6.7.0
   messageKey:
     | "product-stock-reached"
     | "product-out-of-stock"
