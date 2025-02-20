@@ -3,6 +3,7 @@ import { CartPrice } from "./price/CartPrice";
 import { Delivery } from "../delivery/Delivery";
 import { Transaction } from "./transaction/Transaction";
 import { EntityError } from "../../common/EntityError";
+import { CalculatedTax } from '../../system/tax/CalculatedTax'
 
 /**
  * @beta
@@ -21,6 +22,7 @@ export interface CartDelivery extends Delivery {
     listPrice: number | null;
     apiAlias: string;
     totalPrice: number;
+    calculatedTaxes: CalculatedTax[];
   };
 }
 

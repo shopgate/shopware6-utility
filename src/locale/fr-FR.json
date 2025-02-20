@@ -6,7 +6,9 @@
     },
     "cart": {
       "summaryShipping": "Frais de livraison",
-      "summaryTax": "TVA"
+      "summaryTax": "TVA",
+      "subTotal": "Sous-total",
+      "grandTotal": "Total général"
     },
     "notice": {
       "VIOLATION::CUSTOMER_EMAIL_NOT_UNIQUE": "Cette adresse e-mail est déjà enregistrée.",

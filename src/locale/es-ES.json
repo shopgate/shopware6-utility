@@ -6,7 +6,9 @@
     },
     "cart": {
       "summaryShipping": "Gastos de envío",
-      "summaryTax": "IVA"
+      "summaryTax": "IVA",
+      "subTotal": "Subtotal",
+      "grandTotal": "Gran total"
     },
     "notice": {
       "VIOLATION::CUSTOMER_EMAIL_NOT_UNIQUE": "Esta dirección de correo electrónico ya está registrada.",

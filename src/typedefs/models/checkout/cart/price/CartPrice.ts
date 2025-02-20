@@ -9,6 +9,6 @@ export interface CartPrice {
   totalPrice: number;
   calculatedTaxes: CalculatedTax[];
   taxRules: TaxRule[];
-  positionPrice: number;
+  positionPrice: number; // SubTotal
   taxStatus: string;
 }

@@ -6,7 +6,9 @@
     },
     "cart": {
       "summaryShipping": "Costi di spedizione",
-      "summaryTax": "IVA"
+      "summaryTax": "IVA",
+      "subTotal": "Totale parziale",
+      "grandTotal": "Totale generale"
     },
     "notice": {
       "VIOLATION::CUSTOMER_EMAIL_NOT_UNIQUE": "Questo indirizzo e-mail è già registrato.",

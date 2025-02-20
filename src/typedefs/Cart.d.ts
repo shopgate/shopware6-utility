@@ -5,6 +5,7 @@ export namespace ApiteSW6Cart {
         languageId: string,
         showCoupon: boolean,
         cacheCoupon: boolean,
+        displayGuestShipping: boolean,
         settings: PipelineConfigSettings
     }
 

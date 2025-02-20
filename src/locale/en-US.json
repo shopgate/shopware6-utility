@@ -6,7 +6,9 @@
     },
     "cart": {
       "summaryShipping": "Shipping costs",
-      "summaryTax": "Tax"
+      "summaryTax": "Tax",
+      "subTotal": "Subtotal",
+      "grandTotal": "Grand total"
     },
     "notice": {
       "VIOLATION::CUSTOMER_EMAIL_NOT_UNIQUE": "This email address has already been registered.",
