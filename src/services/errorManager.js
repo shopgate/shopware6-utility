@@ -8,7 +8,6 @@ const {
   PurchaseStepsError,
   ProductNotFoundError,
   ProductStockReachedError,
-  PromoAddedError,
   PromoNotEligibleError,
   PromoNotFoundError,
   ThrottledError,
@@ -98,8 +97,6 @@ const throwOnCartInfoErrors = function (errorList, context) {
         case 'promotion-not-eligible':
         case 'promotion-excluded':
           throw (new PromoNotEligibleError().mapEntityError(errorList[key], 'ENOTELIGIBLE'))
-        case 'promotion-discount-added':
-          throw (new PromoAddedError().mapEntityError(errorList[key], 'EPROMOADDED'))
       }
     })
   throwOnCartErrors(errorList, context)
