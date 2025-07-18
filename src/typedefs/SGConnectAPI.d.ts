@@ -127,4 +127,9 @@ export namespace SGConnectAPI {
       }
     ]
   }
+
+  interface FavoriteList {
+    id: string;
+    name: string;
+  }
 }
