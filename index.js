@@ -6,6 +6,7 @@ const contextManager = require('./src/services/contextManager')
 const errorList = require('./src/services/errorList')
 const errorManager = require('./src/services/errorManager')
 const logDecorator = require('./src/services/logDecorator')
+const endpoints = require('./src/lib/endpoints')
 
 const toExport = {
   apiManager,
@@ -15,7 +16,8 @@ const toExport = {
   contextManager,
   errorList,
   errorManager,
-  logDecorator
+  logDecorator,
+  endpoints
 }
 module.exports = toExport
 

@@ -1,6 +1,6 @@
 root: true
 extends:
-  - standard
+  - eslint-config-standard
 env:
   es2020: true
   node: true
