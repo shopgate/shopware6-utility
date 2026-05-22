@@ -18,7 +18,7 @@
   ],
   "main": "index.js",
   "scripts": {
-    "lint": "./node_modules/.bin/eslint --ignore-path .npmignore --ext .js --ext .jsx .",
+    "lint": "eslint --ignore-path .npmignore --ext .js --ext .jsx .",
     "test:ci": "jest --config ./jest.config.js --collectCoverage --coverageDirectory=\"./coverage\" --ci --reporters=default --reporters=jest-junit --watchAll=false",
     "test:unit": "jest"
   },
