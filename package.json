@@ -1,6 +1,6 @@
 {
-  "name": "@apite/shopware6-utility",
-  "version": "2.1.0",
+  "name": "@shopgate/shopware6-utility",
+  "version": "3.0.0",
   "description": "Shopgate WebCheckout utility for Shopware 6 extensions",
   "license": "Apache-2.0",
   "type": "commonjs",
@@ -9,16 +9,19 @@
   },
   "author": {
     "name": "Konstantin Kiritsenko",
-    "email": " k@componentk.com"
+    "email": "k@componentk.com"
   },
-  "repository": {},
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/shopgate/shopware6-utility"
+  },
   "keywords": [
     "shopware6",
     "shopgate"
   ],
   "main": "index.js",
   "scripts": {
-    "lint": "./node_modules/.bin/eslint --ignore-path .npmignore --ext .js --ext .jsx .",
+    "lint": "eslint --ignore-path .npmignore --ext .js --ext .jsx .",
     "test:ci": "jest --config ./jest.config.js --collectCoverage --coverageDirectory=\"./coverage\" --ci --reporters=default --reporters=jest-junit --watchAll=false",
     "test:unit": "jest"
   },

@@ -5,7 +5,7 @@ const get = require('lodash.get')
 /**
  * @param {string?} extensionName
  */
-const logDecorator = (extensionName = '@apite-shopware6-helper') => {
+const logDecorator = (extensionName = '@shopgate-shopware6-helper') => {
   /**
    * @param {AxiosResponse|ClientApiError|ShopwareError|EntityError|Error} response
    * @return {SGConnectAPI.BasicErrorLog|SGConnectAPI.ClientApiErrorLog|FormattedAxiosResponse}

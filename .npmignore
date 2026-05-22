@@ -4,3 +4,5 @@ junit.xml
 **/__tests__
 .gitlab-ci.yml
 jest.config.js
+.github
+.greptile
