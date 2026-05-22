@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/) and this project adheres
 to [Semantic Versioning](http://semver.org/).
 
-## Unreleased
+## 3.0.0
 - moved the package to the @shopgate organization at NPM and renamed to @shopgate/shopware6-utility
 - added GitHub actions workflow for tests & publishing
 
