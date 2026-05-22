@@ -11,7 +11,10 @@
     "name": "Konstantin Kiritsenko",
     "email": "k@componentk.com"
   },
-  "repository": {},
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/shopgate/shopware6-utility"
+  },
   "keywords": [
     "shopware6",
     "shopgate"
