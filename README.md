@@ -27,7 +27,7 @@ Make sure the extension is attached. Once that is done the apiManager file will 
 ### Debug SW6 Connect Plugin & WebCheckout
 
 - Install SW6 [locally](https://docs.dockware.io/use-dockware/advanced-run) & enable xDebug
-- Install [SG Connect](https://gitlab.com/apite/shopgate/shopware6/shopgate-connect) plugin on SW6
+- Install [SG Connect](https://github.com/shopgate/shopware6-webcheckout) plugin on SW6
 - Set an .env of `XDEBUG=1`
 - Set a breakpoint in PHP
 - Run any pipeline endpoint call via Postman or using the CloudFlight App
