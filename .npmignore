@@ -5,3 +5,4 @@ junit.xml
 .gitlab-ci.yml
 jest.config.js
 .github
+.greptile
